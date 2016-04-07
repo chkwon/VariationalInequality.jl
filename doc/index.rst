@@ -1,4 +1,8 @@
-# JuVI: Julia for Variational Inequalities
+.. _index:
+
+----------------------------------------
+JuVI: Julia for Variational Inequalities
+----------------------------------------
 
 This package implements solution algorithms for solving finite-dimensional variational inequality (VI) problems of the following form:
 
@@ -9,3 +13,7 @@ To find :math:`y \in X` such that
 
 
 where the set :math:`X` is defined by equalities and inequalities.
+
+
+Syntax notes
+^^^^^^^^^^^^
