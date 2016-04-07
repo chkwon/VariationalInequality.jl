@@ -19,12 +19,17 @@ Installation
 
 Please note that currently JuVI is under development.
 
+.. code-block:: julia
    Pkg.clone("https://github.com/chkwon/JuVI.jl.git")
 
+.. code-block:: julia
+    julia> using JuMP
 
-
-Exampel 1
+Example 1
 ^^^^^^^^^
+
+.. code-block:: julia
+
     using JuMP, JuVI
     using Base.Test
 
