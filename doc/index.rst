@@ -23,23 +23,18 @@ Please note that currently JuVI is under development.
 
    Pkg.clone("https://github.com/chkwon/JuVI.jl.git")
 
-.. code-block:: julia
 
-    julia> using JuMP
 
 Example 1
 ^^^^^^^^^
 
 .. math::
     \sum_{p=1}^3 F_p(h^*) (h_p - h_p^*) \geq 0 \quad\forall h \in X \\
-    X = \{ h : \sum_{p=1}^3 h_p = T_{14} \}
+    X = \bigg\{ h : \sum_{p=1}^3 h_p = T_{14} \bigg\}
 
 .. code-block:: julia
 
     using JuMP, JuVI
-    using Base.Test
-
-    # write your own tests here
 
     m = JuVIModel()
 
@@ -69,3 +64,59 @@ Example 1
     sol, Fval = solveVIP(m, algorithm=:extra_gradient, max_iter=100, step_size=0.01)
 
     @show solution
+
+
+
+Example 2
+^^^^^^^^^
+
+.. code-block:: julia
+
+    using JuMP, JuVI
+
+    m = JuVIModel()
+
+    @defVar(m, x[1:3])
+
+    @addNLConstraint(m, x[1]^2 + 0.4x[2]^2 + 0.6x[3]^2 <= 1)
+    @addNLConstraint(m, 0.6x[1]^2 + 0.4x[2]^2 + x[3]^2 <= 1)
+    @addNLConstraint(m, x[1] + x[2] + x[3] >= sqrt(3))
+
+    @defNLExpr(m, F1, 2x[1] + 0.2x[1]^3 - 0.5x[2] + 0.1x[3] - 4)
+    @defNLExpr(m, F2, -0.5x[1] + x[2] + 0.1x[2]^3 + 0.5)
+    @defNLExpr(m, F3, 0.5x[1] - 0.2x[2] + 2x[3] - 0.5)
+    F = [F1, F2, F3]
+
+    setVIP(m, F, x)
+
+    sol, Fval = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.01, tolerance=1e-10)
+
+    println(sol)
+    print(Fval)
+
+
+Example 3
+^^^^^^^^^
+
+.. code-block:: julia
+
+    using JuMP, JuVI
+
+    m = JuVIModel()
+
+    @defVar(m, x1)
+    @defVar(m, x2)
+    @defVar(m, x3)
+
+    @addNLConstraint(m, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
+
+    @defNLExpr(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
+    @defNLExpr(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
+    @defNLExpr(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
+
+    setVIP(m, [F1, F2, F3], [x1, x2, x3])
+    
+    sol, Fval = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
+
+    println(sol)
+    print(Fval)
