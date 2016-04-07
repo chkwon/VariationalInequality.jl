@@ -8,4 +8,4 @@ To find :math:`y \in X` such that
     F(y)^T (x-y) >= 0 \qquad \forall x \in X
 
 
-where the set X is defined by equalities and inequalities.
+where the set :math:`X` is defined by equalities and inequalities.
