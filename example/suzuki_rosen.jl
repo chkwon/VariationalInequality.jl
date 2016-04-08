@@ -1,9 +1,13 @@
-# using JuMP, JuVI
-# using Base.Test
-
+using JuVI
 using JuMP, Ipopt
-include("../src/model.jl")
-include("../src/algorithms.jl")
+
+using Base.Test
+using FactCheck
+
+# include("../src/model.jl")
+# include("../src/algorithms.jl")
+
+
 
 # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
 # Example 4.3. This example is modified from the Suzuki Rosen problem in (Rosen and Suzuki, 1965).
@@ -21,17 +25,15 @@ m = JuVIModel()
 @addNLConstraint(m, 4x[1]^2 + 4x[2]^2 + 5x[3]^2 + 4x[4]^2 - 2x[1] - 8x[2] - 18x[3] + 4x[4] + x[5] - 24 <= 0 )
 @addNLConstraint(m, 4x[1]^2 + 7x[2]^2 + 5x[3]^2 + 7x[4]^2 - 8x[1] - 5x[2] - 21x[3] + 4x[4] + x[5] - 30 <= 0 )
 @addNLConstraint(m, 7x[1]^2 + 4x[2]^2 + 5x[3]^2 + x[4]^2 + x[1] - 8x[2] - 21x[3] + 4x[4] + x[5] - 15 <= 0 )
-setVIP(m, F, x)
+
+addRelation!(m, F, x)
 
 # x0 =  [0, 1, 2, -1, 44]
 
-sol1, Fval1, gap1 = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1, tolerance=1e-10)
-sol2, Fval2, gap2 = solveVIP(m, algorithm=:hyperplane, max_iter=1000, step_size=0.1, tolerance=1e-10)
+sol1, Fval1, gap1 = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1, tolerance=1e-10)
 
 println(sol1)
-println(sol2)
 
 println(gap1)
-println(gap2)
 
 # x∗ = (0, 1, 2, −1, 44).

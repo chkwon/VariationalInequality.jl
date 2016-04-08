@@ -7,7 +7,10 @@ include("../src/algorithms.jl")
 
 # Gabriel book
 
-# Strange problem.... or difficult to solve...
+
+# Something's wrong....
+# NOT YET BEEN TESTED
+
 
 m = JuVIModel()
 
@@ -24,18 +27,15 @@ m = JuVIModel()
 @defNLExpr(m, F3, -2.7984 + 0.0000172 * q_d + 0.00000645 * q_d_hat)
 @defNLExpr(m, F4, -2.2262 + 0.00000239 * q_d + 0.0000287 * q_d_hat)
 
-setVIP(m, [F1, F2, F3, F4], [q_s, q_s_hat, q_d, q_d_hat])
+addRelation!(m, [F1, F2, F3, F4], [q_s, q_s_hat, q_d, q_d_hat])
 
-sol1, Fval1, gap1 = solveVIP(m, algorithm=:extra_gradient, max_iter=10000, step_size=0.1)
-sol2, Fval2, gap2 = solveVIP(m, algorithm=:hyperplane, max_iter=10000, step_size=0.1)
+sol1, Fval1, gap1 = solveVIP!(m, algorithm=:extra_gradient, max_iter=10000, step_size=0.1)
 
-println(getValue(q_s))
-println(getValue(q_s_hat))
-println(getValue(q_d))
-println(getValue(q_d_hat))
+println(sol1[q_s])
+println(sol1[q_s_hat])
+println(sol1[q_d])
+println(sol1[q_d_hat])
 
 println(sol1)
-println(sol2)
 
 println(gap1)
-println(gap2)
