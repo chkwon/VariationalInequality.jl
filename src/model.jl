@@ -31,7 +31,7 @@ end
 
 function solveVIP(m::Model    ; step_size=0.01,
                                 algorithm=:fixed_point,
-                                tolerance=1e-5,
+                                tolerance=1e-10,
                                 max_iter=1000            )
 
     F = getJuVIData(m).F
@@ -45,22 +45,56 @@ function solveVIP(m::Model    ; step_size=0.01,
 
 end
 
+function initial_projection(m, x0)
+    var = getJuVIData(m).var
+    dim = length(var)
+    @setNLObjective(m, Min, sum{ ( var[i] - x0[i] )^2, i=1:dim} )
+    status = solve(m)
+    return getValue(var)
+end
 
+function gap_function(m, y)
+    F = getJuVIData(m).F
+    var = getJuVIData(m).var
+    dim = length(F)
+
+    setValue(var, y)
+    Fy = getValue(F)
+
+    @setNLObjective(m, Max, sum{ Fy[i]*(y[i]-var[i]), i=1:dim} )
+    solve(m)
+    gap = getObjectiveValue(m)
+    return gap
+end
 
 function solveVIP(m::Model, x0; step_size=0.01,
                                 algorithm=:fixed_point,
-                                tolerance=1e-5,
+                                tolerance=1e-10,
                                 max_iter=1000            )
     # :fixed_point basic fixed-point iteration, Section 12.1.1
     # :extra_gradient extragradient, Section 12.1.2
+
+    # var = getJuVIData(m).var
+    # F = getJuVIData(m).F
+    # setValue(var, x0)
+    # F0 = getValue(F)
+    # println("F0=", F0)
+    #
+    # error("..........")
+
+    x0 = initial_projection(m, x0)
 
     sol = []
     if algorithm==:fixed_point
         sol, F = _solve_fp(m, x0, step_size, tolerance, max_iter)
     elseif algorithm==:extra_gradient
         sol, F = _solve_eg(m, x0, step_size, tolerance, max_iter)
+    elseif algorithm==:hyperplane
+        sol, F = _solve_hp(m, x0, step_size, tolerance, max_iter)
     end
 
-    return sol, F
+    gap = gap_function(m, sol)
+
+    return sol, F, gap
 
 end
