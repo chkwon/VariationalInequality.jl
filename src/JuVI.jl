@@ -13,8 +13,12 @@ include("algorithms.jl")
 
 export  JuVIModel,
         JuVIData,
-        setVIP,
-        solveVIP
+        solveVIP!,
+        addRelation!,
+        clearValues!,
+        saveSolution,
+        gap_function
+
 
 
 

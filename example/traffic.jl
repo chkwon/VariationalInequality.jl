@@ -1,9 +1,13 @@
-# using JuMP, JuVI
-# using Base.Test
-
+using JuVI
 using JuMP, Ipopt
-include("../src/model.jl")
-include("../src/algorithms.jl")
+
+using Base.Test
+using FactCheck
+
+# include("../src/model.jl")
+# include("../src/algorithms.jl")
+
+
 
 # write your own tests here
 
@@ -24,35 +28,8 @@ F = [F1, F2, F3]
 
 @addNLConstraint(m, sum{h[i], i=1:p} == T14)
 
-setVIP(m, F, h)
-solution = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
-@show solution
-solution = solveVIP(m, algorithm=:hyperplane, max_iter=1000, step_size=0.1)
+addRelation!(m, F, h)
+sol, Fval, gap = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 
-
-
-
-# Test 2
-
-m = JuVIModel()
-
-@defVar(m, q_s)
-@defVar(m, q_s_hat)
-@defVar(m, q_d)
-@defVar(m, q_d_hat)
-
-@addNLConstraint(m, q_s - q_d == 0)
-@addNLConstraint(m, q_s_hat - q_d_hat == 0)
-
-@defNLExpr(m, F1, 0.5 + 0.0001 * q_s)
-@defNLExpr(m, F2, 23/70 + 1/70000 * q_s_hat)
-@defNLExpr(m, F3, -2.7984 + 0.0000172 * q_d + 0.00000645 * q_d_hat)
-@defNLExpr(m, F4, -2.2262 + 0.00000239 * q_d + 0.0000287 * q_d_hat)
-
-setVIP(m, [F1, F2, F3, F4], [q_s, q_s_hat, q_d, q_d_hat])
-solution = solveVIP(m, algorithm=:hyperplane, max_iter=100, step_size=0.1)
-
-println(getValue(q_s))
-println(getValue(q_s_hat))
-println(getValue(q_d))
-println(getValue(q_d_hat))
+@show sol
+@show gap
