@@ -2,7 +2,6 @@ using JuVI
 using JuMP, Ipopt
 
 using Base.Test
-using FactCheck
 
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
@@ -44,7 +43,3 @@ sol2, Fval2, gap2 = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_
 println("x1 = ", sol1[x1] )
 println("x2 = ", sol1[x2] )
 println("x3 = ", sol1[x3] )
-
-@fact sol1[x1] --> roughly(1; atol=1e-5)
-@fact sol1[x2] --> roughly(0; atol=1e-5)
-@fact sol1[x3] --> roughly(0; atol=1e-5)

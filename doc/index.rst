@@ -24,6 +24,7 @@ Please note that currently JuVI is under development.
 .. code-block:: julia
 
    Pkg.clone("https://github.com/chkwon/JuVI.jl.git")
+   Pkg.build("JuVI")
 
 
 
