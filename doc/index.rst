@@ -15,6 +15,8 @@ where the set :math:`X` is defined by equalities and inequalities. The problem m
 
 This package requires ``JuMP`` and ``Ipopt`` and only support nonlinear constraints and expressions; that is, one must use ``@addNLConstraint`` and ``@defNLExpr`` instead of ``@addConstraint`` and ``@defExpr``.
 
+For variational inequality problems for traffic user equilibrium, see `TrafficAssignment.jl <https://github.com/chkwon/TrafficAssignment.jl>`_.
+
 
 Installation
 ^^^^^^^^^^^^
