@@ -13,6 +13,9 @@ To find :math:`x^* \in X` such that
 
 where the set :math:`X` is defined by equalities and inequalities. The problem may be called :math:`VI(F,X)`.
 
+This package requires `Ipopt` and only support nonlinear constraints and expressions; that is, one must use `@addNLConstraint`
+and `@defNLExpr` instead of `@addConstraint` and `@defExpr`.
+
 
 Installation
 ^^^^^^^^^^^^
