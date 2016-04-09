@@ -24,10 +24,10 @@ p = 3
 @defNLExpr(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
 @defNLExpr(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
 
-F = [F1, F2, F3]
 
 @addNLConstraint(m, sum{h[i], i=1:p} == T14)
 
+F = [F1, F2, F3]
 addRelation!(m, F, h)
 sol, Fval, gap = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 

@@ -59,17 +59,3 @@ sol1, Fval1, gap1 = solveVIP!(model, algorithm=:fixed_point, max_iter=10000, ste
 @show sol1[Q[2,1]]
 @show sol1[q[1]]
 @show sol1[q[2]]
-
-# # The above `solveVIP!` sets the value of variables at the solution
-# clearValues!(model)
-#
-# solveVIP!(model, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
-# sol2, Fval2, gap2 = saveSolution(model)
-# @assert 0<= gap2 < 1e-6
-#
-# # sol2, Fval2, gap2 = solveVIP(m, algorithm=:hyperplane, max_iter=1000, step_size=0.1)
-#
-# @show sol1
-# @show sol2
-# @show gap1
-# @show gap2

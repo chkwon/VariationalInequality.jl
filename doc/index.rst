@@ -9,7 +9,7 @@ This package implements solution algorithms for solving finite-dimensional varia
 To find :math:`x^* \in X` such that
 
 .. math::
-    F(x^*)^T (x-x^*) \geq 0 \qquad \forall x \in X
+    F(x^*)^\top (x-x^*) \geq 0 \qquad \forall x \in X
 
 where the set :math:`X` is defined by equalities and inequalities. The problem may be called :math:`VI(F,X)`.
 
@@ -54,16 +54,17 @@ Example 1
     @defNLExpr(m, F1, A[1]+B[1]*h[1]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
     @defNLExpr(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
     @defNLExpr(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
-    F = [F1, F2, F3]
 
     # The order in F and h should match.
-    setVIP(m, F, h)
+    F = [F1, F2, F3]
+    addRelation!(m, F, h)
 
     # sol = the solution x^*
     # Fval = F(x^*)
-    sol, Fval = solveVIP(m, algorithm=:extra_gradient, max_iter=100, step_size=0.01)
+    # gap = value of the gap function
+    sol, Fval, gap = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 
-    @show solution
+    @show sol
 
 
 
@@ -72,51 +73,53 @@ Example 2
 
 .. code-block:: julia
 
-    using JuMP, JuVI
+    # https://supernet.isenberg.umass.edu/articles/SPE_Model_Information_Asymmetry_in_Quality.pdf
+    # Problem (15), Data in Table 1, Example 1
+    m = 2; n = 1
 
-    m = JuVIModel()
+    model = JuVIModel()
 
-    @defVar(m, x[1:3])
+    @defVar(model, s[i=1:m] >=0)
+    @defVar(model, d[j=1:n] >=0)
+    @defVar(model, Q[i=1:m, j=1:n] >= 0)
+    @defVar(model, q[i=1:m] >= 0)
 
-    @addNLConstraint(m, x[1]^2 + 0.4x[2]^2 + 0.6x[3]^2 <= 1)
-    @addNLConstraint(m, 0.6x[1]^2 + 0.4x[2]^2 + x[3]^2 <= 1)
-    @addNLConstraint(m, x[1] + x[2] + x[3] >= sqrt(3))
+    @addNLConstraint(model, supply[i=1:m], s[i] == sum{Q[i,j], j=1:n})
+    @addNLConstraint(model, demand[j=1:n], d[j] == sum{Q[i,j], i=1:m})
 
-    @defNLExpr(m, F1, 2x[1] + 0.2x[1]^3 - 0.5x[2] + 0.1x[3] - 4)
-    @defNLExpr(m, F2, -0.5x[1] + x[2] + 0.1x[2]^3 + 0.5)
-    @defNLExpr(m, F3, 0.5x[1] - 0.2x[2] + 2x[3] - 0.5)
-    F = [F1, F2, F3]
+    as = [5; 2]
+    bs = [5; 10]
+    @defNLExpr(model, pi[i=1:m], as[i] * s[i] + q[i] + bs[i])
 
-    setVIP(m, F, x)
+    ac = [1; 2]
+    bc = [15; 20]
+    @defNLExpr(model, c[i=1:m, j=1:n], ac[i,j] * Q[i,j] + bc[i,j] )
 
-    sol, Fval = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.01, tolerance=1e-10)
+    ad = [2]
+    bd = [100]
+    @defNLExpr(model, qhat[j=1:n], sum{q[i]*Q[i,j], i=1:m} / ( sum{Q[i,j], i=1:m} + 1e-6 ) )
+    @defNLExpr(model, nrho[j=1:n], ad[j] * d[j] - qhat[j] - bd[j] )
 
-    println(sol)
-    print(Fval)
+    aq = [5; 10]
+    @defNLExpr(model, OC[i=1:m], aq[i] * q[i] )
+    @defNLExpr(model, Fq[i=1:m], OC[i] - pi[i] )
 
 
-Example 3
-^^^^^^^^^
+    addRelation!(model, pi, s)
+    addRelation!(model, c, Q)
+    addRelation!(model, nrho, d)
+    addRelation!(model, Fq, q)
 
-.. code-block:: julia
+    for i=1:m, j=1:n
+        setValue(Q[i,j], 1.0)
+    end
 
-    using JuMP, JuVI
+    sol1, Fval1, gap1 = solveVIP!(model, algorithm=:fixed_point, max_iter=10000, step_size=0.1, tolerance=1e-10)
+    @assert 0<= gap1 < 1e-6
 
-    m = JuVIModel()
+    @show gap1
 
-    @defVar(m, x1)
-    @defVar(m, x2)
-    @defVar(m, x3)
-
-    @addNLConstraint(m, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
-
-    @defNLExpr(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
-    @defNLExpr(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
-    @defNLExpr(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
-
-    setVIP(m, [F1, F2, F3], [x1, x2, x3])
-    
-    sol, Fval = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
-
-    println(sol)
-    print(Fval)
+    @show sol1[Q[1,1]]
+    @show sol1[Q[2,1]]
+    @show sol1[q[1]]
+    @show sol1[q[2]]
