@@ -32,6 +32,7 @@ Please note that currently JuVI is under development.
     Pkg.build("JuVI")
 
 
+See below for a few examples. Check `the example folder <https://github.com/chkwon/JuVI.jl/tree/master/example>`_ in the github repository for more examples.
 
 Example 1
 ^^^^^^^^^
