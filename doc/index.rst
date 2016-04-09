@@ -13,7 +13,7 @@ To find :math:`x^* \in X` such that
 
 where the set :math:`X` is defined by equalities and inequalities. The problem may be called :math:`VI(F,X)`.
 
-This package requires ``Ipopt`` and only support nonlinear constraints and expressions; that is, one must use ``@addNLConstraint`` and ``@defNLExpr`` instead of ``@addConstraint`` and ``@defExpr``.
+This package requires ``JuMP`` and ``Ipopt`` and only support nonlinear constraints and expressions; that is, one must use ``@addNLConstraint`` and ``@defNLExpr`` instead of ``@addConstraint`` and ``@defExpr``.
 
 
 Installation
@@ -23,8 +23,11 @@ Please note that currently JuVI is under development.
 
 .. code-block:: julia
 
-   Pkg.clone("https://github.com/chkwon/JuVI.jl.git")
-   Pkg.build("JuVI")
+    Pkg.add("JuMP")
+    Pkg.add("Ipopt")
+    
+    Pkg.clone("https://github.com/chkwon/JuVI.jl.git")
+    Pkg.build("JuVI")
 
 
 
