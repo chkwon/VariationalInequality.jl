@@ -9,9 +9,13 @@ This package is an extension of the [JuMP.jl](https://github.com/JuliaOpt/JuMP.j
 
 # To Do
 
+- Implementing the Diagonalization algorithm, as a simple experiment.
+
+- Implementing the convex optimization method of [Aghassi et al. (2006)](http://dx.doi.org/10.1016/j.orl.2005.09.006)
+
 - Implementing the projection algorithm of [Solodov and Svaiter (1999)](http://dx.doi.org/10.1137/S0363012997317475) and check the performance.
 
 - Writing a wrapper of the [PATH solver](http://pages.cs.wisc.edu/~ferris/path.html) for complementarity problems.
    - Tried to compile a Standalone-C example; couldn't compile both in Mac OS X and Ubuntu due to incompatibility of the library provided. Any help is welcome.
 
-- Interior-point method for VI? 
+- Interior-point method for VI?
