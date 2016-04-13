@@ -39,11 +39,11 @@ Example 1
 
 .. math::
     x &= \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} \\
-
+    & \\
     F(x) &= \begin{bmatrix} 2x_1 + 0.2x_1^3 - 0.5x_2 + 0.1x_3 - 4 \\
                         -0.5x_1 + x2 + 0.1x_2^3 + 0.5 \\
                          0.5x_1 - 0.2x_2 + 2x_3 - 0.5 \end{bmatrix} \\
-                         
+    & \\                         
     X &= \{ x : x_1^2 + 0.4x_2^2 + 0.6x_3^2 \leq 1 \}
 
 
