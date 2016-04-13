@@ -27,7 +27,7 @@ Please note that currently JuVI is under development.
 
     Pkg.add("JuMP")
     Pkg.add("Ipopt")
-    
+
     Pkg.clone("https://github.com/chkwon/JuVI.jl.git")
     Pkg.build("JuVI")
 
@@ -35,6 +35,48 @@ Please note that currently JuVI is under development.
 See below for a few examples. Check `the example folder <https://github.com/chkwon/JuVI.jl/tree/master/example>`_ in the github repository for more examples.
 
 Example 1
+^^^^^^^^^
+
+.. math::
+    x = \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} \\
+    F(x) = \begin{bmatrix} 2x_1 + 0.2x_1^3 - 0.5x_2 + 0.1x_3 - 4 \\
+                        -0.5x_1 + x2 + 0.1x_2^3 + 0.5 \\
+                         0.5x_1 - 0.2x_2 + 2x_3 - 0.5 \end{bmatrix} \\
+    X = \{ x : x_1^2 + 0.4x_2^2 + 0.6x_3^2 \leq 1 \}
+
+
+.. code-block:: julia
+
+    using JuVI
+    using JuMP, Ipopt
+
+    # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
+    # Example 3.8. This example is used for testing the RPM in (Fukushima, 1986).
+    m = JuVIModel()
+
+    @defVar(m, x1)
+    @defVar(m, x2)
+    @defVar(m, x3)
+
+    @addNLConstraint(m, const1, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
+
+    @defNLExpr(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
+    @defNLExpr(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
+    @defNLExpr(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
+
+    addRelation!(m, [F1, F2, F3], [x1, x2, x3])
+
+    sol1, Fval1, gap1 = solveVIP!(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
+    @assert 0<= gap1 < 1e-6
+
+    println("x1 = ", sol1[x1] )
+    println("x2 = ", sol1[x2] )
+    println("x3 = ", sol1[x3] )
+
+
+
+
+Example 2
 ^^^^^^^^^
 
 .. math::
@@ -77,7 +119,7 @@ Example 1
 
 
 
-Example 2
+Example 3
 ^^^^^^^^^
 
 .. code-block:: julia
