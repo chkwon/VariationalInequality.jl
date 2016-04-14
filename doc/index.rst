@@ -37,6 +37,8 @@ See below for a few examples. Check `the example folder <https://github.com/chkw
 Example 1
 ^^^^^^^^^
 
+Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF01589441>`_.
+
 .. math::
     x &= \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} \\
     & \\
@@ -52,8 +54,6 @@ Example 1
     using JuVI
     using JuMP, Ipopt
 
-    # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
-    # Example 3.8. This example is used for testing the RPM in (Fukushima, 1986).
     m = JuVIModel()
 
     @defVar(m, x1)
