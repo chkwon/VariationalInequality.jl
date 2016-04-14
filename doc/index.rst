@@ -125,11 +125,10 @@ The example in Section 5.8 of `Friesz (2010) Chapter 5. Finite Dimensional Varia
 
 Example 3
 ^^^^^^^^^
+Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <https://supernet.isenberg.umass.edu/articles/SPE_Model_Information_Asymmetry_in_Quality.pdf>`_.
 
 .. code-block:: julia
 
-    # https://supernet.isenberg.umass.edu/articles/SPE_Model_Information_Asymmetry_in_Quality.pdf
-    # Problem (15), Data in Table 1, Example 1
     m = 2; n = 1
 
     model = JuVIModel()
