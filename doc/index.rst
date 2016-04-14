@@ -43,7 +43,7 @@ Example 1
     F(x) &= \begin{bmatrix} 2x_1 + 0.2x_1^3 - 0.5x_2 + 0.1x_3 - 4 \\
                         -0.5x_1 + x2 + 0.1x_2^3 + 0.5 \\
                          0.5x_1 - 0.2x_2 + 2x_3 - 0.5 \end{bmatrix} \\
-    & \\                         
+    & \\
     X &= \{ x : x_1^2 + 0.4x_2^2 + 0.6x_3^2 \leq 1 \}
 
 
@@ -80,6 +80,8 @@ Example 1
 
 Example 2
 ^^^^^^^^^
+
+The example in Section 5.8 of `Friesz (2010) Chapter 5. Finite Dimensional Variational Inequalities and Nash Equilibria <http://link.springer.com/chapter/10.1007/978-0-387-72778-3_5>`_.
 
 .. math::
     \sum_{p=1}^3 F_p(h^*) (h_p - h_p^*) \geq 0 \quad\forall h \in X \\
