@@ -1,8 +1,7 @@
 using JuVI
-using JuMP, Ipopt
+using JuMP
 
-using Base.Test
-
+# using Base.Test
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
 

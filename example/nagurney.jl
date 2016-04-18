@@ -1,11 +1,10 @@
-using JuVI
-using JuMP, Ipopt
+using JuMP, JuVI
+# include("../src/model.jl")
+# include("../src/algorithms.jl")
 
 using Base.Test
 using FactCheck
 
-# include("../src/model.jl")
-# include("../src/algorithms.jl")
 
 
 # https://supernet.isenberg.umass.edu/articles/SPE_Model_Information_Asymmetry_in_Quality.pdf

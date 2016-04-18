@@ -1,5 +1,5 @@
 using JuVI
-using JuMP, Ipopt
+using JuMP
 
 using Base.Test
 using FactCheck

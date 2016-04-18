@@ -1,9 +1,10 @@
 # using JuMP, JuVI
 # using Base.Test
 
-using JuMP, Ipopt
-include("../src/model.jl")
-include("../src/algorithms.jl")
+using JuMP, JuVI
+# include("../src/model.jl")
+# include("../src/algorithms.jl")
+
 
 # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
 # Harker 1984
