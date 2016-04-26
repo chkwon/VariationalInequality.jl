@@ -52,7 +52,7 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
 .. code-block:: julia
 
     using JuVI
-    using JuMP, Ipopt
+    using JuMP
 
     m = JuVIModel()
 
@@ -128,6 +128,8 @@ Example 3
 Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <https://supernet.isenberg.umass.edu/articles/SPE_Model_Information_Asymmetry_in_Quality.pdf>`_.
 
 .. code-block:: julia
+
+    using JuMP, JuVI
 
     m = 2; n = 1
 
