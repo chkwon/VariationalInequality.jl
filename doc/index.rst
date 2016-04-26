@@ -4,7 +4,7 @@
 JuVI: Julia for Variational Inequalities
 ----------------------------------------
 
-This package, `JuVI.jl <https://github.com/chkwon/JuVI.jl>`_, implements solution algorithms for solving finite-dimensional variational inequality (VI) problems of the following form:
+This package, `JuVI.jl <https://github.com/chkwon/JuVI.jl>`_, implements solution algorithms for solving finite-dimensional `variational inequality <https://en.wikipedia.org/wiki/Variational_inequality>`_ (VI) problems of the following form:
 
 To find :math:`x^* \in X` such that
 
