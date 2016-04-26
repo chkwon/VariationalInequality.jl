@@ -12,7 +12,7 @@ This package implements solution algorithms for solving finite-dimensional [vari
 
 # Other Links
 
-For solving complementarity problems, the [PATH.jl](https://github.com/chkwon/PATH.jl) package provides a wrapper for the well-known PATH solver.
+For solving complementarity problems, the [PATHSolver.jl](https://github.com/chkwon/PATHSolver.jl) package provides a wrapper for the well-known PATH solver.
 
 
 
