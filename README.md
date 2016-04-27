@@ -1,7 +1,8 @@
 # VariationalInequality.jl
 
 [![Build Status](https://travis-ci.org/chkwon/VariationalInequality.jl.svg?branch=master)](https://travis-ci.org/chkwon/VariationalInequality.jl)
-[![Coverage Status](https://coveralls.io/repos/chkwon/VariationalInequality.jl/badge.svg)](https://coveralls.io/r/chkwon/VariationalInequality.jl)
+[![Coverage Status](https://coveralls.io/repos/github/chkwon/VariationalInequality.jl/badge.svg?branch=master)](https://coveralls.io/github/chkwon/VariationalInequality.jl?branch=master)
+
 
 This package implements solution algorithms for solving finite-dimensional [variational inequality](https://en.wikipedia.org/wiki/Variational_inequality) (VI) problems. This package is an extension of the [JuMP.jl](https://github.com/JuliaOpt/JuMP.jl) package.
 
