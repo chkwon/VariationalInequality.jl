@@ -1,4 +1,4 @@
-using JuMP, JuVI
+using JuMP, VariationalInequality
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
 
@@ -11,7 +11,7 @@ using FactCheck
 # Problem (15), Data in Table 1, Example 1
 m = 2; n = 1
 
-model = JuVIModel()
+model = VIPModel()
 
 @defVar(model, s[i=1:m] >=0)
 @defVar(model, d[j=1:n] >=0)

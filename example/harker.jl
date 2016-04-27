@@ -1,7 +1,7 @@
-# using JuMP, JuVI
+# using JuMP, VariationalInequality
 # using Base.Test
 
-using JuMP, JuVI
+using JuMP, VariationalInequality
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
 
@@ -13,7 +13,7 @@ L = [5.0; 5; 5; 5; 5]
 beta = [1.2; 1.1; 1.0; 0.9; 0.8]
 s = [178.2339; 173.8586; 163.7603; 148.3378; 128.8948]
 
-m = JuVIModel()
+m = VIPModel()
 @defVar(m, q[1:5] >= 0)
 @addNLConstraint(m, upperbounds[i=1:5], q[i] <= s[i])
 

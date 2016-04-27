@@ -1,6 +1,6 @@
 isdefined(Base, :__precompile__) && __precompile__()
 
-module JuVI
+module VariationalInequality
 
 # package code goes here
 
@@ -13,8 +13,8 @@ include("model.jl")
 include("algorithms.jl")
 
 
-export  JuVIModel,
-        JuVIData,
+export  VIPModel,
+        VIPData,
         solveVIP!,
         addRelation!,
         clearValues!,

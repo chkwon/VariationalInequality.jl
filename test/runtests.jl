@@ -1,15 +1,16 @@
-using JuVI
+using VariationalInequality
 using JuMP
 
 # using Base.Test
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
+# import Ipopt
 
 
 
 # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
 # Example 3.8. This example is used for testing the RPM in (Fukushima, 1986).
-m = JuVIModel()
+m = VIPModel()
 
 @defVar(m, x1)
 @defVar(m, x2)

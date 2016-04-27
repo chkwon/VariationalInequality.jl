@@ -1,26 +1,26 @@
 
-type JuVIData
+type VIPData
     F::Array{JuMP.NonlinearExpression,1}
     var::Array{JuMP.Variable,1}
     relation::Dict{JuMP.Variable, JuMP.NonlinearExpression}
 end
 
-function JuVIModel(solver=Ipopt.IpoptSolver(print_level=0))
+function VIPModel(solver=Ipopt.IpoptSolver(print_level=0))
     m = Model(solver=solver)
-    m.ext[:VIP] = JuVIData(Array(JuMP.NonlinearExpression,0), Array(JuMP.Variable,0), Dict{JuMP.Variable, JuMP.NonlinearExpression}() )
+    m.ext[:VIP] = VIPData(Array(JuMP.NonlinearExpression,0), Array(JuMP.Variable,0), Dict{JuMP.Variable, JuMP.NonlinearExpression}() )
     return m
 end
 
-function getJuVIData(m::Model)
+function getVIPData(m::Model)
     if haskey(m.ext, :VIP)
-        return m.ext[:VIP]::JuVIData
+        return m.ext[:VIP]::VIPData
     else
-        error("The 'getJuVIData' function is only for VIP models as in JuVI.jl")
+        error("The 'getVIPData' function is only for VIP models as in VariationalInequality.jl")
     end
 end
 
 function addRelation!(m::Model, expression::JuMP.NonlinearExpression, variable::JuMP.Variable)
-    data = getJuVIData(m)
+    data = getVIPData(m)
     data.relation[variable] = expression
 end
 
@@ -44,7 +44,7 @@ end
 # function setVIP(m::Model, expressions::Array{JuMP.NonlinearExpression,1}, variables::Array{JuMP.Variable,1})
 #     @assert length(expressions) == length(variables)
 #
-#     data = getJuVIData(m)
+#     data = getVIPData(m)
 #     data.F = expressions
 #     data.var = variables
 #
@@ -57,8 +57,8 @@ end
 #                                 tolerance=1e-10,
 #                                 max_iter=1000            )
 #
-#     F = getJuVIData(m).F
-#     var = getJuVIData(m).var
+#     F = getVIPData(m).F
+#     var = getVIPData(m).var
 #     @assert length(F) == length(var)
 #     dim = length(F)
 #
@@ -74,14 +74,14 @@ end
 _getValue(v::JuMP.Variable) = v.m.colVal[v.col]
 
 function clearValues!(m)
-    relation = getJuVIData(m).relation
+    relation = getVIPData(m).relation
     for variable in keys(relation)
         setValue(variable, NaN)
     end
 end
 
 function initial_projection!(m::JuMP.Model)
-    relation = getJuVIData(m).relation
+    relation = getVIPData(m).relation
 
     initial_values = Dict{JuMP.Variable, Float64}()
     for variable in keys(relation)
@@ -98,7 +98,7 @@ function initial_projection!(m::JuMP.Model)
 end
 
 function gap_function!(m)
-    relation = getJuVIData(m).relation
+    relation = getVIPData(m).relation
     var = getVariables(relation)
     y = getCurrentX(relation)
     Fy = getCurrentF(relation)
@@ -111,7 +111,7 @@ function gap_function!(m)
 end
 
 function saveSolution!(m)
-    relation = getJuVIData(m).relation
+    relation = getVIPData(m).relation
     var = getVariables(relation)
     x = getCurrentX(relation)
     F = getCurrentF(relation)

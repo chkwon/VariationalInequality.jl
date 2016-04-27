@@ -4,7 +4,7 @@ getCurrentF(relation) = getValue(collect(values(relation)))
 getVariables(relation) = collect(keys(relation))
 
 # function createSolutionDict(m::Model)
-#     relation = getJuVIData(m).relation
+#     relation = getVIPData(m).relation
 #
 #     sol_dict = Dict()
 #     for variable in keys(relation)
@@ -17,7 +17,7 @@ getVariables(relation) = collect(keys(relation))
 # end
 
 function _fixed_point!(m, step_size, tolerance, max_iter)
-    relation = getJuVIData(m).relation
+    relation = getVIPData(m).relation
 
     # initialization
     var = getVariables(relation)
@@ -53,7 +53,7 @@ end
 
 # Extragradient Section 12.1.2 of Facchinei and Pang (2003)
 function _extra_gradient!(m, step_size, tolerance, max_iter)
-    relation = getJuVIData(m).relation
+    relation = getVIPData(m).relation
 
     # initialization
     var = getVariables(relation)
@@ -96,8 +96,8 @@ end
 # # Hyperplane Projection Algorithm Section 12.1.3 of Facchinei and Pang (2003)
 # function _hyperplane!(m, x0, step_size, tolerance, max_iter)
 #
-#     F = getJuVIData(m).F
-#     var = getJuVIData(m).var
+#     F = getVIPData(m).F
+#     var = getVIPData(m).var
 #     @assert length(F) == length(var)
 #     dim = length(F)
 #

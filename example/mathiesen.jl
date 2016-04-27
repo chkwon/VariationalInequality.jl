@@ -1,4 +1,4 @@
-using JuVI
+using VariationalInequality
 using JuMP, Ipopt
 
 using Base.Test
@@ -11,7 +11,7 @@ using FactCheck
 # [21] L. Mathiesen, An algorithm based on a sequence of linear complementarity problems applied
 # to a Walrasian equilibrium model: An example, Math. Programming, 37 (1987), pp. 1–18.
 
-m = JuVIModel()
+m = VIPModel()
 
 @defVar(m, x1>=0)
 @defVar(m, x2>=0)

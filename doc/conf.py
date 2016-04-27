@@ -5,7 +5,7 @@ import sys, os
 extensions = ['sphinx.ext.mathjax', 'sphinx.ext.todo', 'sphinx.ext.autodoc']
 
 # General information about the project.
-project = u'JuVI -- Julia for Variational Inequalities'
+project = u'VariationalInequality -- Julia for Variational Inequalities'
 AUTHORS = u"Changhyun Kwon"
 copyright = u'2016, '+AUTHORS
 

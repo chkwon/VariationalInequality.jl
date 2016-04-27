@@ -1,6 +1,6 @@
 .. _contents:
 
-JuVI.jl
+VariationalInequality.jl
 =============================
 
 .. toctree::

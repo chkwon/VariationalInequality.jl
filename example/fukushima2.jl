@@ -1,13 +1,13 @@
-# using JuMP, JuVI
+# using JuMP, VariationalInequality
 # using Base.Test
 
-using JuMP, JuVI
+using JuMP, VariationalInequality
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
 
 # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
 # Example 4.2. This example is adapted from the example in (Fukushima, 1986). Let
-m = JuVIModel()
+m = VIPModel()
 @defVar(m, x[1:3])
 
 @addNLConstraint(m, x[1]^2 + 0.4x[2]^2 + 0.6x[3]^2 <= 1)

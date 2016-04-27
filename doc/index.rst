@@ -1,10 +1,10 @@
 .. _index:
 
 ----------------------------------------
-JuVI: Julia for Variational Inequalities
+VariationalInequality: Julia for Variational Inequalities
 ----------------------------------------
 
-This package, `JuVI.jl <https://github.com/chkwon/JuVI.jl>`_, implements solution algorithms for solving finite-dimensional `variational inequality <https://en.wikipedia.org/wiki/Variational_inequality>`_ (VI) problems of the following form:
+This package, `VariationalInequality.jl <https://github.com/chkwon/VariationalInequality.jl>`_, implements solution algorithms for solving finite-dimensional `variational inequality <https://en.wikipedia.org/wiki/Variational_inequality>`_ (VI) problems of the following form:
 
 To find :math:`x^* \in X` such that
 
@@ -21,18 +21,18 @@ For variational inequality problems for traffic user equilibrium, see `TrafficAs
 Installation
 ^^^^^^^^^^^^
 
-Please note that currently JuVI is under development.
+Please note that currently VariationalInequality is under development.
 
 .. code-block:: julia
 
     Pkg.add("JuMP")
     Pkg.add("Ipopt")
 
-    Pkg.clone("https://github.com/chkwon/JuVI.jl.git")
-    Pkg.build("JuVI")
+    Pkg.clone("https://github.com/chkwon/VariationalInequality.jl.git")
+    Pkg.build("VariationalInequality")
 
 
-See below for a few examples. Check `the example folder <https://github.com/chkwon/JuVI.jl/tree/master/example>`_ in the github repository for more examples.
+See below for a few examples. Check `the example folder <https://github.com/chkwon/VariationalInequality.jl/tree/master/example>`_ in the github repository for more examples.
 
 Example 1
 ^^^^^^^^^
@@ -51,10 +51,10 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
 
 .. code-block:: julia
 
-    using JuVI
+    using VariationalInequality
     using JuMP
 
-    m = JuVIModel()
+    m = VIPModel()
 
     @defVar(m, x1)
     @defVar(m, x2)
@@ -89,9 +89,9 @@ The example in Section 5.8 of `Friesz (2010) Chapter 5. Finite Dimensional Varia
 
 .. code-block:: julia
 
-    using JuMP, JuVI
+    using JuMP, VariationalInequality
 
-    m = JuVIModel()
+    m = VIPModel()
 
     A = [25; 25; 75; 25; 25]
     B = [0.010; 0.010; 0.001; 0.010; 0.010]
@@ -129,11 +129,11 @@ Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <http
 
 .. code-block:: julia
 
-    using JuMP, JuVI
+    using JuMP, VariationalInequality
 
     m = 2; n = 1
 
-    model = JuVIModel()
+    model = VIPModel()
 
     @defVar(model, s[i=1:m] >=0)
     @defVar(model, d[j=1:n] >=0)

@@ -1,4 +1,4 @@
-using JuMP, JuVI
+using JuMP, VariationalInequality
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
 
@@ -10,7 +10,7 @@ using FactCheck
 
 # write your own tests here
 
-m = JuVIModel()
+m = VIPModel()
 
 A = [25; 25; 75; 25; 25]
 B = [0.010; 0.010; 0.001; 0.010; 0.010]

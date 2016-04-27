@@ -1,13 +1,13 @@
-# JuVI - Julia for Variational Inequality
+# VariationalInequality.jl
 
-[![Build Status](https://travis-ci.org/chkwon/JuVI.jl.svg?branch=master)](https://travis-ci.org/chkwon/JuVI.jl)
-[![Coverage Status](https://coveralls.io/repos/chkwon/JuVI.jl/badge.svg)](https://coveralls.io/r/chkwon/JuVI.jl)
+[![Build Status](https://travis-ci.org/chkwon/VariationalInequality.jl.svg?branch=master)](https://travis-ci.org/chkwon/VariationalInequality.jl)
+[![Coverage Status](https://coveralls.io/repos/chkwon/VariationalInequality.jl/badge.svg)](https://coveralls.io/r/chkwon/VariationalInequality.jl)
 
 This package implements solution algorithms for solving finite-dimensional [variational inequality](https://en.wikipedia.org/wiki/Variational_inequality) (VI) problems. This package is an extension of the [JuMP.jl](https://github.com/JuliaOpt/JuMP.jl) package.
 
 # Documentation
 
-- [Read the Documentation](http://juvijl.readthedocs.org/).
+- [Read the Documentation](http://VariationalInequalityjl.readthedocs.org/).
 
 
 # Other Links
