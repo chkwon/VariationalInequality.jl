@@ -66,9 +66,9 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
     @defNLExpr(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
     @defNLExpr(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
-    addRelation!(m, [F1, F2, F3], [x1, x2, x3])
+    correspond(m, [F1, F2, F3], [x1, x2, x3])
 
-    sol1, Fval1, gap1 = solveVIP!(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
+    sol1, Fval1, gap1 = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
     @assert 0<= gap1 < 1e-6
 
     println("x1 = ", sol1[x1] )
@@ -112,12 +112,12 @@ The example in Section 5.8 of `Friesz (2010) Chapter 5. Finite Dimensional Varia
 
     # The order in F and h should match.
     F = [F1, F2, F3]
-    addRelation!(m, F, h)
+    correspond(m, F, h)
 
     # sol = the solution x^*
     # Fval = F(x^*)
     # gap = value of the gap function
-    sol, Fval, gap = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
+    sol, Fval, gap = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 
     @show sol
 
@@ -161,16 +161,16 @@ Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <http
     @defNLExpr(model, Fq[i=1:m], OC[i] - pi[i] )
 
 
-    addRelation!(model, pi, s)
-    addRelation!(model, c, Q)
-    addRelation!(model, nrho, d)
-    addRelation!(model, Fq, q)
+    correspond(model, pi, s)
+    correspond(model, c, Q)
+    correspond(model, nrho, d)
+    correspond(model, Fq, q)
 
     for i=1:m, j=1:n
         setValue(Q[i,j], 1.0)
     end
 
-    sol1, Fval1, gap1 = solveVIP!(model, algorithm=:fixed_point, max_iter=10000, step_size=0.1, tolerance=1e-10)
+    sol1, Fval1, gap1 = solveVIP(model, algorithm=:fixed_point, max_iter=10000, step_size=0.1, tolerance=1e-10)
     @assert 0<= gap1 < 1e-6
 
     @show gap1

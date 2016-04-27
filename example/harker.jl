@@ -21,14 +21,14 @@ m = VIPModel()
                        - 5000^(1/1.1) * (sum{q[i], i=1:5})^(-1/1.1)
                        + ( 5000^(1/1.1) ) / 1.1 * q[i] * (sum{q[i], i=1:5})^(-2.1/1.1) )
 
-addRelation!(m, F, q)
+correspond(m, F, q)
 
 x0 =  [36.9120, 41.8420, 43.7050, 42.6650, 39.1820]
 
-solveVIP!(m, algorithm=:fixed_point, max_iter=1000, step_size=0.01)
+solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.01)
 sol1, Fval1, gap1 = saveSolution(m)
 
-solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
+solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 sol2, Fval2, gap2 = saveSolution(m)
 
 @show sol1

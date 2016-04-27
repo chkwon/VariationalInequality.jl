@@ -23,15 +23,15 @@ m = VIPModel()
 @defNLExpr(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
 @defNLExpr(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
-addRelation!(m, [F1, F2, F3], [x1, x2, x3])
+correspond(m, [F1, F2, F3], [x1, x2, x3])
 
-sol1, Fval1, gap1 = solveVIP!(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
+sol1, Fval1, gap1 = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
 @assert 0<= gap1 < 1e-6
 
-# The above `solveVIP!` sets the value of variables at the solution
-clearValues!(m)
+# The above `solveVIP` sets the value of variables at the solution
+clearValues(m)
 
-sol2, Fval2, gap2 = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
+sol2, Fval2, gap2 = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
 @assert 0<= gap2 < 1e-6
 
 # sol2, Fval2, gap2 = solveVIP(m, algorithm=:hyperplane, max_iter=1000, step_size=0.1)

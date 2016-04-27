@@ -19,9 +19,9 @@ m = VIPModel()
 @defNLExpr(m, F1, 3x[1] + x[2] - 5)
 @defNLExpr(m, F2, 2x[1] + 5x[2] - 3)
 F = [F1, F2]
-addRelation!(m, F, x)
+correspond(m, F, x)
 
-sol1, Fval1, gap1 = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
+sol1, Fval1, gap1 = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
 
 println(sol1)
 

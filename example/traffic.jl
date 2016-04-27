@@ -27,8 +27,8 @@ p = 3
 @addNLConstraint(m, sum{h[i], i=1:p} == T14)
 
 F = [F1, F2, F3]
-addRelation!(m, F, h)
-sol, Fval, gap = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
+correspond(m, F, h)
+sol, Fval, gap = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 
 @show sol
 @show gap

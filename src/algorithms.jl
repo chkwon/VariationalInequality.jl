@@ -16,7 +16,7 @@ getVariables(relation) = collect(keys(relation))
 #     return sol_dict
 # end
 
-function _fixed_point!(m, step_size, tolerance, max_iter)
+function _fixed_point(m, step_size, tolerance, max_iter)
     relation = getVIPData(m).relation
 
     # initialization
@@ -52,7 +52,7 @@ end
 
 
 # Extragradient Section 12.1.2 of Facchinei and Pang (2003)
-function _extra_gradient!(m, step_size, tolerance, max_iter)
+function _extra_gradient(m, step_size, tolerance, max_iter)
     relation = getVIPData(m).relation
 
     # initialization
@@ -94,7 +94,7 @@ end
 
 
 # # Hyperplane Projection Algorithm Section 12.1.3 of Facchinei and Pang (2003)
-# function _hyperplane!(m, x0, step_size, tolerance, max_iter)
+# function _hyperplane(m, x0, step_size, tolerance, max_iter)
 #
 #     F = getVIPData(m).F
 #     var = getVIPData(m).var

@@ -24,12 +24,12 @@ m = VIPModel()
 @defNLExpr(m, F2, 0.1* (5*x2 +3*x3) /x2   -  5)
 @defNLExpr(m, F3, -3)
 
-addRelation!(m, [F1, F2, F3], [x1, x2, x3])
+correspond(m, [F1, F2, F3], [x1, x2, x3])
 
-solveVIP!(m, algorithm=:fixed_point, max_iter=1000, step_size=0.01)
+solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.01)
 sol0, Fval0, gap0 = saveSolution(m)
 
-solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
+solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 sol1, Fval1, gap1 = saveSolution(m)
 
 println(sol0)

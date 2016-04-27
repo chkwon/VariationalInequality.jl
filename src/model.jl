@@ -19,24 +19,24 @@ function getVIPData(m::Model)
     end
 end
 
-function addRelation!(m::Model, expression::JuMP.NonlinearExpression, variable::JuMP.Variable)
+function correspond(m::Model, expression::JuMP.NonlinearExpression, variable::JuMP.Variable)
     data = getVIPData(m)
     data.relation[variable] = expression
 end
 
-function addRelation!(m::Model, expressions::Array{JuMP.NonlinearExpression,1}, variables::Array{JuMP.Variable,1})
+function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression,1}, variables::Array{JuMP.Variable,1})
     @assert length(expressions) == length(variables)
     for i in 1:length(variables)
-        addRelation!(m, expressions[i], variables[i])
+        correspond(m, expressions[i], variables[i])
     end
 end
 
-function addRelation!(m::Model, expressions::Array{JuMP.NonlinearExpression}, variables::Array{JuMP.Variable})
+function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression}, variables::Array{JuMP.Variable})
     expressions = collect(expressions)
     variables = collect(variables)
     @assert length(expressions) == length(variables)
     for i in 1:length(variables)
-        addRelation!(m, expressions[i], variables[i])
+        correspond(m, expressions[i], variables[i])
     end
 end
 
@@ -73,14 +73,14 @@ end
 # internal method that doesn't print a warning if the value is NaN
 _getValue(v::JuMP.Variable) = v.m.colVal[v.col]
 
-function clearValues!(m)
+function clearValues(m)
     relation = getVIPData(m).relation
     for variable in keys(relation)
         setValue(variable, NaN)
     end
 end
 
-function initial_projection!(m::JuMP.Model)
+function initial_projection(m::JuMP.Model)
     relation = getVIPData(m).relation
 
     initial_values = Dict{JuMP.Variable, Float64}()
@@ -97,7 +97,7 @@ function initial_projection!(m::JuMP.Model)
     @assert status==:Optimal
 end
 
-function gap_function!(m)
+function gap_function(m)
     relation = getVIPData(m).relation
     var = getVariables(relation)
     y = getCurrentX(relation)
@@ -110,7 +110,7 @@ function gap_function!(m)
     return getObjectiveValue(m)
 end
 
-function saveSolution!(m)
+function saveSolution(m)
     relation = getVIPData(m).relation
     var = getVariables(relation)
     x = getCurrentX(relation)
@@ -118,26 +118,26 @@ function saveSolution!(m)
 
     solution = Dict(zip(var, x))
     F_value = Dict(zip(var, F))
-    gap = gap_function!(m)
+    gap = gap_function(m)
 
     return solution, F_value, gap
 end
 
-function solveVIP!(m::Model;    step_size=0.01,
+function solveVIP(m::Model;    step_size=0.01,
                                 algorithm=:fixed_point,
                                 tolerance=1e-6,
                                 max_iter=1000            )
 
-    initial_projection!(m)
+    initial_projection(m)
 
     if algorithm==:fixed_point
-        _fixed_point!(m, step_size, tolerance, max_iter)
+        _fixed_point(m, step_size, tolerance, max_iter)
     elseif algorithm==:extra_gradient
-        _extra_gradient!(m, step_size, tolerance, max_iter)
+        _extra_gradient(m, step_size, tolerance, max_iter)
     # elseif algorithm==:hyperplane
-    #     _hyperplane!(m, step_size, tolerance, max_iter)
+    #     _hyperplane(m, step_size, tolerance, max_iter)
     end
 
     # sol, Fval, gap = saveSolution(m)
-    return saveSolution!(m)
+    return saveSolution(m)
 end

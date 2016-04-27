@@ -39,16 +39,16 @@ aq = [5; 10]
 @defNLExpr(model, Fq[i=1:m], OC[i] - pi[i] )
 
 
-addRelation!(model, pi, s)
-addRelation!(model, c, Q)
-addRelation!(model, nrho, d)
-addRelation!(model, Fq, q)
+correspond(model, pi, s)
+correspond(model, c, Q)
+correspond(model, nrho, d)
+correspond(model, Fq, q)
 
 for i=1:m, j=1:n
     setValue(Q[i,j], 1.0)
 end
 
-sol1, Fval1, gap1 = solveVIP!(model, algorithm=:fixed_point, max_iter=10000, step_size=0.1, tolerance=1e-10)
+sol1, Fval1, gap1 = solveVIP(model, algorithm=:fixed_point, max_iter=10000, step_size=0.1, tolerance=1e-10)
 @assert 0<= gap1 < 1e-6
 
 @show sol1

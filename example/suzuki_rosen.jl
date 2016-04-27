@@ -25,11 +25,11 @@ m = VIPModel()
 @addNLConstraint(m, 4x[1]^2 + 7x[2]^2 + 5x[3]^2 + 7x[4]^2 - 8x[1] - 5x[2] - 21x[3] + 4x[4] + x[5] - 30 <= 0 )
 @addNLConstraint(m, 7x[1]^2 + 4x[2]^2 + 5x[3]^2 + x[4]^2 + x[1] - 8x[2] - 21x[3] + 4x[4] + x[5] - 15 <= 0 )
 
-addRelation!(m, F, x)
+correspond(m, F, x)
 
 # x0 =  [0, 1, 2, -1, 44]
 
-sol1, Fval1, gap1 = solveVIP!(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1, tolerance=1e-10)
+sol1, Fval1, gap1 = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1, tolerance=1e-10)
 
 println(sol1)
 

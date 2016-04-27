@@ -15,9 +15,9 @@ include("algorithms.jl")
 
 export  VIPModel,
         VIPData,
-        solveVIP!,
-        addRelation!,
-        clearValues!,
+        solveVIP,
+        correspond,
+        clearValues,
         saveSolution,
         gap_function
 
