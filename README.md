@@ -10,9 +10,11 @@ This package implements solution algorithms for solving finite-dimensional [vari
 - [Read the Documentation](http://VariationalInequalityjl.readthedocs.org/).
 
 
-# Other Links
+# Other Related Packages
 
-For solving complementarity problems, the [PATHSolver.jl](https://github.com/chkwon/PATHSolver.jl) package provides a wrapper for the well-known PATH solver.
+- [TrafficAssignment.jl](https://github.com/chkwon/TrafficAssignment.jl) - Solving the variational inequality problem arising in computing the network user equilibrium
+
+- [PATHSolver.jl](https://github.com/chkwon/PATHSolver.jl) - Providing a wrapper for the PATH Solver, for solving complementarity problems.
 
 
 
