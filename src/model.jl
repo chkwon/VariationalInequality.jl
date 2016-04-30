@@ -40,6 +40,14 @@ function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression}, vari
     end
 end
 
+function correspond(m::Model, expressions::JuMP.JuMPArray, variables::JuMP.JuMPArray)
+    variables = collect(variables.innerArray)
+    expressions = collect(expressions.innerArray)
+    @assert length(expressions) == length(variables)
+    for i in 1:length(variables)
+        correspond(m, expressions[i], variables[i])
+    end
+end
 
 # function setVIP(m::Model, expressions::Array{JuMP.NonlinearExpression,1}, variables::Array{JuMP.Variable,1})
 #     @assert length(expressions) == length(variables)

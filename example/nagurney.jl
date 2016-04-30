@@ -3,8 +3,6 @@ using JuMP, VariationalInequality
 # include("../src/algorithms.jl")
 
 using Base.Test
-using FactCheck
-
 
 
 # https://supernet.isenberg.umass.edu/articles/SPE_Model_Information_Asymmetry_in_Quality.pdf
