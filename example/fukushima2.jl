@@ -8,15 +8,15 @@ using JuMP, VariationalInequality
 # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
 # Example 4.2. This example is adapted from the example in (Fukushima, 1986). Let
 m = VIPModel()
-@defVar(m, x[1:3])
+@variable(m, x[1:3])
 
-@addNLConstraint(m, x[1]^2 + 0.4x[2]^2 + 0.6x[3]^2 <= 1)
-@addNLConstraint(m, 0.6x[1]^2 + 0.4x[2]^2 + x[3]^2 <= 1)
-@addNLConstraint(m, x[1] + x[2] + x[3] >= sqrt(3))
+@NLconstraint(m, x[1]^2 + 0.4x[2]^2 + 0.6x[3]^2 <= 1)
+@NLconstraint(m, 0.6x[1]^2 + 0.4x[2]^2 + x[3]^2 <= 1)
+@NLconstraint(m, x[1] + x[2] + x[3] >= sqrt(3))
 
-@defNLExpr(m, F1, 2x[1] + 0.2x[1]^3 - 0.5x[2] + 0.1x[3] - 4)
-@defNLExpr(m, F2, -0.5x[1] + x[2] + 0.1x[2]^3 + 0.5)
-@defNLExpr(m, F3, 0.5x[1] - 0.2x[2] + 2x[3] - 0.5)
+@NLexpression(m, F1, 2x[1] + 0.2x[1]^3 - 0.5x[2] + 0.1x[3] - 4)
+@NLexpression(m, F2, -0.5x[1] + x[2] + 0.1x[2]^3 + 0.5)
+@NLexpression(m, F3, 0.5x[1] - 0.2x[2] + 2x[3] - 0.5)
 
 correspond(m, F1, x[1])
 correspond(m, F2, x[2])

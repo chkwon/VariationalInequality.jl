@@ -12,15 +12,15 @@ using JuMP
 # Example 3.8. This example is used for testing the RPM in (Fukushima, 1986).
 m = VIPModel()
 
-@defVar(m, x1)
-@defVar(m, x2)
-@defVar(m, x3)
+@variable(m, x1)
+@variable(m, x2)
+@variable(m, x3)
 
-@addNLConstraint(m, const1, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
+@NLconstraint(m, const1, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
 
-@defNLExpr(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
-@defNLExpr(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
-@defNLExpr(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
+@NLexpression(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
+@NLexpression(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
+@NLexpression(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
 correspond(m, [F1, F2, F3], [x1, x2, x3])
 

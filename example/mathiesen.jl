@@ -13,16 +13,16 @@ using FactCheck
 
 m = VIPModel()
 
-@defVar(m, x1>=0)
-@defVar(m, x2>=0)
-@defVar(m, x3>=0)
+@variable(m, x1>=0)
+@variable(m, x2>=0)
+@variable(m, x3>=0)
 
-@addNLConstraint(m, x1+x2+x3 <= 1)
-@addNLConstraint(m, x1-x2-x3 <= 0)
+@NLconstraint(m, x1+x2+x3 <= 1)
+@NLconstraint(m, x1-x2-x3 <= 0)
 
-@defNLExpr(m, F1, 0.9* (5*x2 + 3*x3)/x1 )
-@defNLExpr(m, F2, 0.1* (5*x2 +3*x3) /x2   -  5)
-@defNLExpr(m, F3, -3)
+@NLexpression(m, F1, 0.9* (5*x2 + 3*x3)/x1 )
+@NLexpression(m, F2, 0.1* (5*x2 +3*x3) /x2   -  5)
+@NLexpression(m, F3, -3)
 
 correspond(m, [F1, F2, F3], [x1, x2, x3])
 

@@ -17,14 +17,14 @@ B = [0.010; 0.010; 0.001; 0.010; 0.010]
 T14 = 100
 p = 3
 
-@defVar(m, h[i=1:p] >= 0)
+@variable(m, h[i=1:p] >= 0)
 
-@defNLExpr(m, F1, A[1]+B[1]*h[1]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
-@defNLExpr(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
-@defNLExpr(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
+@NLexpression(m, F1, A[1]+B[1]*h[1]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
+@NLexpression(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
+@NLexpression(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
 
 
-@addNLConstraint(m, sum{h[i], i=1:p} == T14)
+@NLconstraint(m, sum{h[i], i=1:p} == T14)
 
 F = [F1, F2, F3]
 correspond(m, F, h)

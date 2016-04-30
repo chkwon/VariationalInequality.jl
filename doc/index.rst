@@ -13,7 +13,7 @@ To find :math:`x^* \in X` such that
 
 where the set :math:`X` is defined by equalities and inequalities. The problem may be called :math:`VI(F,X)`.
 
-This package requires ``JuMP`` and ``Ipopt`` and only support nonlinear constraints and expressions; that is, one must use ``@addNLConstraint`` and ``@defNLExpr`` instead of ``@addConstraint`` and ``@defExpr``.
+This package requires ``JuMP`` and ``Ipopt`` and only support nonlinear constraints and expressions; that is, one must use ``@NLconstraint`` and ``@NLexpression`` instead of ``@addConstraint`` and ``@defExpr``.
 
 For variational inequality problems for traffic user equilibrium, see `TrafficAssignment.jl <https://github.com/chkwon/TrafficAssignment.jl>`_.
 
@@ -56,15 +56,15 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
 
     m = VIPModel()
 
-    @defVar(m, x1)
-    @defVar(m, x2)
-    @defVar(m, x3)
+    @variable(m, x1)
+    @variable(m, x2)
+    @variable(m, x3)
 
-    @addNLConstraint(m, const1, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
+    @NLconstraint(m, const1, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
 
-    @defNLExpr(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
-    @defNLExpr(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
-    @defNLExpr(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
+    @NLexpression(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
+    @NLexpression(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
+    @NLexpression(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
     correspond(m, [F1, F2, F3], [x1, x2, x3])
 
@@ -98,17 +98,17 @@ The example in Section 5.8 of `Friesz (2010) Chapter 5. Finite Dimensional Varia
     T14 = 100
     p = 3
 
-    @defVar(m, h[i=1:p] >= 0)
+    @variable(m, h[i=1:p] >= 0)
 
     # Add constraints to construct the feasible space
     # The set X as in VI(F,X)
-    @addNLConstraint(m, sum{h[i], i=1:p} == T14)
+    @NLconstraint(m, sum{h[i], i=1:p} == T14)
 
     # Define expressions to be used for the operator of the VI
     # The operator F as in VI(F,X)
-    @defNLExpr(m, F1, A[1]+B[1]*h[1]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
-    @defNLExpr(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
-    @defNLExpr(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
+    @NLexpression(m, F1, A[1]+B[1]*h[1]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
+    @NLexpression(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
+    @NLexpression(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
 
     # The order in F and h should match.
     F = [F1, F2, F3]
@@ -135,30 +135,30 @@ Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <http
 
     model = VIPModel()
 
-    @defVar(model, s[i=1:m] >=0)
-    @defVar(model, d[j=1:n] >=0)
-    @defVar(model, Q[i=1:m, j=1:n] >= 0)
-    @defVar(model, q[i=1:m] >= 0)
+    @variable(model, s[i=1:m] >=0)
+    @variable(model, d[j=1:n] >=0)
+    @variable(model, Q[i=1:m, j=1:n] >= 0)
+    @variable(model, q[i=1:m] >= 0)
 
-    @addNLConstraint(model, supply[i=1:m], s[i] == sum{Q[i,j], j=1:n})
-    @addNLConstraint(model, demand[j=1:n], d[j] == sum{Q[i,j], i=1:m})
+    @NLconstraint(model, supply[i=1:m], s[i] == sum{Q[i,j], j=1:n})
+    @NLconstraint(model, demand[j=1:n], d[j] == sum{Q[i,j], i=1:m})
 
     as = [5; 2]
     bs = [5; 10]
-    @defNLExpr(model, pi[i=1:m], as[i] * s[i] + q[i] + bs[i])
+    @NLexpression(model, pi[i=1:m], as[i] * s[i] + q[i] + bs[i])
 
     ac = [1; 2]
     bc = [15; 20]
-    @defNLExpr(model, c[i=1:m, j=1:n], ac[i,j] * Q[i,j] + bc[i,j] )
+    @NLexpression(model, c[i=1:m, j=1:n], ac[i,j] * Q[i,j] + bc[i,j] )
 
     ad = [2]
     bd = [100]
-    @defNLExpr(model, qhat[j=1:n], sum{q[i]*Q[i,j], i=1:m} / ( sum{Q[i,j], i=1:m} + 1e-6 ) )
-    @defNLExpr(model, nrho[j=1:n], ad[j] * d[j] - qhat[j] - bd[j] )
+    @NLexpression(model, qhat[j=1:n], sum{q[i]*Q[i,j], i=1:m} / ( sum{Q[i,j], i=1:m} + 1e-6 ) )
+    @NLexpression(model, nrho[j=1:n], ad[j] * d[j] - qhat[j] - bd[j] )
 
     aq = [5; 10]
-    @defNLExpr(model, OC[i=1:m], aq[i] * q[i] )
-    @defNLExpr(model, Fq[i=1:m], OC[i] - pi[i] )
+    @NLexpression(model, OC[i=1:m], aq[i] * q[i] )
+    @NLexpression(model, Fq[i=1:m], OC[i] - pi[i] )
 
 
     correspond(model, pi, s)
@@ -167,7 +167,7 @@ Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <http
     correspond(model, Fq, q)
 
     for i=1:m, j=1:n
-        setValue(Q[i,j], 1.0)
+        setvalue(Q[i,j], 1.0)
     end
 
     sol1, Fval1, gap1 = solveVIP(model, algorithm=:fixed_point, max_iter=10000, step_size=0.1, tolerance=1e-10)

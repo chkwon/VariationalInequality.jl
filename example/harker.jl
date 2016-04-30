@@ -14,10 +14,10 @@ beta = [1.2; 1.1; 1.0; 0.9; 0.8]
 s = [178.2339; 173.8586; 163.7603; 148.3378; 128.8948]
 
 m = VIPModel()
-@defVar(m, q[1:5] >= 0)
-@addNLConstraint(m, upperbounds[i=1:5], q[i] <= s[i])
+@variable(m, q[1:5] >= 0)
+@NLconstraint(m, upperbounds[i=1:5], q[i] <= s[i])
 
-@defNLExpr(m, F[i=1:5], c[i] + L[i]^(1/beta[i]) * q[i]^(1/beta[i])
+@NLexpression(m, F[i=1:5], c[i] + L[i]^(1/beta[i]) * q[i]^(1/beta[i])
                        - 5000^(1/1.1) * (sum{q[i], i=1:5})^(-1/1.1)
                        + ( 5000^(1/1.1) ) / 1.1 * q[i] * (sum{q[i], i=1:5})^(-2.1/1.1) )
 
