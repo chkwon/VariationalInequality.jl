@@ -6,10 +6,10 @@ import MathProgBase
 
 
 m = Model()
-@defVar(m, x1)
-@addNLConstraint(m, cons1, x1^2 <= 1)
-@addNLConstraint(m, cons2, x1^2 >= 2)
-@addNLConstraint(m, cons2, x1^2 == 2)
+@variable(m, x1)
+@NLconstraint(m, cons1, x1^2 <= 1)
+@NLconstraint(m, cons2, x1^2 >= 2)
+@NLconstraint(m, cons2, x1^2 == 2)
 z = [1.0]
 
 d = JuMPNLPEvaluator(m)

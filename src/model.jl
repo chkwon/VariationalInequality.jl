@@ -79,12 +79,12 @@ end
 
 # Copied from JuMP.jl
 # internal method that doesn't print a warning if the value is NaN
-_getValue(v::JuMP.Variable) = v.m.colVal[v.col]
+_getvalue(v::JuMP.Variable) = v.m.colVal[v.col]
 
 function clearValues(m)
     relation = getVIPData(m).relation
     for variable in keys(relation)
-        setValue(variable, NaN)
+        setvalue(variable, NaN)
     end
 end
 
@@ -93,14 +93,14 @@ function initial_projection(m::JuMP.Model)
 
     initial_values = Dict{JuMP.Variable, Float64}()
     for variable in keys(relation)
-        val = _getValue(variable)
+        val = _getvalue(variable)
         if isnan(val)
             val = 0.0
         end
         initial_values[variable] = val
     end
 
-    @setNLObjective(m, Min, sum{ ( variable - initial_values[variable] )^2, variable in keys(relation)} )
+    @NLobjective(m, Min, sum{ ( variable - initial_values[variable] )^2, variable in keys(relation)} )
     status = solve(m)
     @assert status==:Optimal
 end
@@ -111,11 +111,11 @@ function gap_function(m)
     y = getCurrentX(relation)
     Fy = getCurrentF(relation)
 
-    @setNLObjective(m, Max,
+    @NLobjective(m, Max,
         sum{ Fy[j] * ( y[j] - var[j] ),    j=1:length(var)}
     )
     solve(m)
-    return getObjectiveValue(m)
+    return getobjectivevalue(m)
 end
 
 function saveSolution(m)

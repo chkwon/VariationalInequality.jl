@@ -1,6 +1,6 @@
 # functions that return arrays
-getCurrentX(relation) = getValue(collect(keys(relation)))
-getCurrentF(relation) = getValue(collect(values(relation)))
+getCurrentX(relation) = getvalue(collect(keys(relation)))
+getCurrentF(relation) = getvalue(collect(values(relation)))
 getVariables(relation) = collect(keys(relation))
 
 # function createSolutionDict(m::Model)
@@ -8,9 +8,9 @@ getVariables(relation) = collect(keys(relation))
 #
 #     sol_dict = Dict()
 #     for variable in keys(relation)
-#         xstar = getValue(variable)
-#         Fstar = getValue(relation[variable])
-#         sol_dict[variable] = getValue(variable)
+#         xstar = getvalue(variable)
+#         Fstar = getvalue(relation[variable])
+#         sol_dict[variable] = getvalue(variable)
 #     end
 #
 #     return sol_dict
@@ -26,7 +26,7 @@ function _fixed_point(m, step_size, tolerance, max_iter)
     tau = step_size
 
     for i=1:max_iter
-        @setNLObjective(m, Min,
+        @NLobjective(m, Min,
             sum{ ( var[j] - (xk[j]-tau*fk[j]) )^2, j=1:length(var)}
         )
 
@@ -62,13 +62,13 @@ function _extra_gradient(m, step_size, tolerance, max_iter)
     tau = step_size
 
     for i=1:max_iter
-        @setNLObjective(m, Min,
+        @NLobjective(m, Min,
             sum{ ( var[j] - (xk[j]-tau*fk[j]) )^2, j=1:length(var)}
         )
         status = solve(m)
         mid_fk = getCurrentF(relation)
 
-        @setNLObjective(m, Min,
+        @NLobjective(m, Min,
             sum{ ( var[j] - (xk[j]-tau*mid_fk[j]) )^2, j=1:length(var)}
         )
         status = solve(m)
@@ -103,17 +103,17 @@ end
 #
 #     # initialization
 #     xk = x0
-#     setValue(var, x0)
-#     fk = getValue(F)
+#     setvalue(var, x0)
+#     fk = getvalue(F)
 #     tau = step_size
 #     sigma = 0.5
 #
 #     for k=1:max_iter
 #
 #         # yk = P_X ( xk - tau F(xk) )
-#         @setNLObjective(m, Min, sum{ ( var[i] - (xk[i]-tau*fk[i]) )^2, i=1:dim} )
+#         @NLobjective(m, Min, sum{ ( var[i] - (xk[i]-tau*fk[i]) )^2, i=1:dim} )
 #         status = solve(m)
-#         yk = getValue(var)
+#         yk = getvalue(var)
 #
 #         # find the smallest nonnegative integer i such that...
 #         # F(2^(-i)yk + (1-2^(-i))xk) ^T (xk - yk) >= sigma / tau || xk - yk ||^2
@@ -123,8 +123,8 @@ end
 #             # println("i=", i)
 #             # println("var=", 2.0^(-i)*yk + (1-2.0^(-i))*xk)
 #
-#             setValue(var, 2.0^(-i)*yk + (1-2.0^(-i))*xk)
-#             FF = getValue(F)
+#             setvalue(var, 2.0^(-i)*yk + (1-2.0^(-i))*xk)
+#             FF = getvalue(F)
 #
 #             # println("FF=", FF)
 #             # println("dot(FF, xk-yk)=", dot(FF, xk-yk))
@@ -137,15 +137,15 @@ end
 #         end
 #
 #         zk = 2.0^(-ik) * yk + (1-2.0^(-ik)) * xk
-#         setValue(var, zk)
-#         Fzk = getValue(F)
+#         setvalue(var, zk)
+#         Fzk = getvalue(F)
 #
 #         wk = xk - dot(Fzk, xk-zk) / dot(Fzk, Fzk) * Fzk
 #
-#         @setNLObjective(m, Min, sum{ ( var[i] - wk[i] )^2, i=1:dim} )
+#         @NLobjective(m, Min, sum{ ( var[i] - wk[i] )^2, i=1:dim} )
 #         status = solve(m)
-#         new_xk = getValue(var)
-#         new_fk = getValue(F)
+#         new_xk = getvalue(var)
+#         new_fk = getvalue(F)
 #
 #         rel_err = norm(xk-new_xk) / norm(xk)
 #

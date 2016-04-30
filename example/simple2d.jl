@@ -12,12 +12,12 @@ using FactCheck
 # Example 3.9. I created this simple two dimenional example for testing.
 m = VIPModel()
 
-@defVar(m, x[1:2])
+@variable(m, x[1:2])
 
-@addNLConstraint(m, x[1]^2 + x[2]^2 <= 1)
+@NLconstraint(m, x[1]^2 + x[2]^2 <= 1)
 
-@defNLExpr(m, F1, 3x[1] + x[2] - 5)
-@defNLExpr(m, F2, 2x[1] + 5x[2] - 3)
+@NLexpression(m, F1, 3x[1] + x[2] - 5)
+@NLexpression(m, F2, 2x[1] + 5x[2] - 3)
 F = [F1, F2]
 correspond(m, F, x)
 
