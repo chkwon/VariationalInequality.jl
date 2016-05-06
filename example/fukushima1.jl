@@ -2,8 +2,6 @@ using VariationalInequality
 using JuMP
 
 using Base.Test
-using FactCheck
-
 # include("../src/model.jl")
 # include("../src/algorithms.jl")
 
@@ -45,6 +43,6 @@ println("x1 = ", sol1[x1] )
 println("x2 = ", sol1[x2] )
 println("x3 = ", sol1[x3] )
 
-@fact sol1[x1] --> roughly(1; atol=1e-5)
-@fact sol1[x2] --> roughly(0; atol=1e-5)
-@fact sol1[x3] --> roughly(0; atol=1e-5)
+@test isapprox(sol1[x1], 1; atol=1e-5)
+@test isapprox(sol1[x2], 0; atol=1e-5)
+@test isapprox(sol1[x3], 0; atol=1e-5)
