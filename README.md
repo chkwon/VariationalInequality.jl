@@ -1,6 +1,10 @@
 # VariationalInequality.jl
 
+[![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.4.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
+[![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.5.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
+
 [![Build Status](https://travis-ci.org/chkwon/VariationalInequality.jl.svg?branch=master)](https://travis-ci.org/chkwon/VariationalInequality.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/yj93tqlm5r51alen?svg=true)](https://ci.appveyor.com/project/chkwon/variationalinequality-jl)
 [![Coverage Status](https://coveralls.io/repos/github/chkwon/VariationalInequality.jl/badge.svg?branch=master)](https://coveralls.io/github/chkwon/VariationalInequality.jl?branch=master)
 
 
