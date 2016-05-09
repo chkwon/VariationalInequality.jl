@@ -1,7 +1,7 @@
 .. _index:
 
 ----------------------------------------
-VariationalInequality: Julia for Variational Inequalities
+VariationalInequality: Julia package for solving variational inequality problems
 ----------------------------------------
 
 This package, `VariationalInequality.jl <https://github.com/chkwon/VariationalInequality.jl>`_, implements solution algorithms for solving finite-dimensional `variational inequality <https://en.wikipedia.org/wiki/Variational_inequality>`_ (VI) problems of the following form:
