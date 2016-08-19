@@ -3,8 +3,6 @@ using JuMP
 import MathProgBase
 
 
-
-
 m = Model()
 @variable(m, x1)
 @NLconstraint(m, cons1, x1^2 <= 1)

@@ -19,17 +19,31 @@ function getVIPData(m::Model)
     end
 end
 
+
+
+################################################################################
+# correspond interface
+# The most basic/important one. All other interfaces call this method.
 function correspond(m::Model, expression::JuMP.NonlinearExpression, variable::JuMP.Variable)
     data = getVIPData(m)
     data.relation[variable] = expression
 end
-
-function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression,1}, variables::Array{JuMP.Variable,1})
-    @assert length(expressions) == length(variables)
-    for i in 1:length(variables)
-        correspond(m, expressions[i], variables[i])
-    end
+# Alternative
+function correspond(m::Model, variable::JuMP.Variable, expression::JuMP.NonlinearExpression)
+    correspond(m, expression, variable)
 end
+
+
+# Do we need the below?
+# function correspond(m::Model, variables::Array{JuMP.Variable,1}, expressions::Array{JuMP.NonlinearExpression,1})
+#     correspond(m, expressions, variables)
+# end
+# function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression,1}, variables::Array{JuMP.Variable,1})
+#     @assert length(expressions) == length(variables)
+#     for i in 1:length(variables)
+#         correspond(m, expressions[i], variables[i])
+#     end
+# end
 
 function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression}, variables::Array{JuMP.Variable})
     expressions = collect(expressions)
@@ -39,15 +53,22 @@ function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression}, vari
         correspond(m, expressions[i], variables[i])
     end
 end
-
-function correspond(m::Model, expressions::JuMP.JuMPArray, variables::JuMP.JuMPArray)
-    variables = collect(variables.innerArray)
-    expressions = collect(expressions.innerArray)
-    @assert length(expressions) == length(variables)
-    for i in 1:length(variables)
-        correspond(m, expressions[i], variables[i])
-    end
+function correspond(m::Model, variables::Array{JuMP.Variable}, expressions::Array{JuMP.NonlinearExpression})
+    correspond(m, expressions, variables)
 end
+
+# Do we need the below?
+# function correspond(m::Model, expressions::JuMP.JuMPArray, variables::JuMP.JuMPArray)
+#     variables = collect(variables.innerArray)
+#     expressions = collect(expressions.innerArray)
+#     @assert length(expressions) == length(variables)
+#     for i in 1:length(variables)
+#         correspond(m, expressions[i], variables[i])
+#     end
+# end
+################################################################################
+
+
 
 # function setVIP(m::Model, expressions::Array{JuMP.NonlinearExpression,1}, variables::Array{JuMP.Variable,1})
 #     @assert length(expressions) == length(variables)
@@ -77,9 +98,13 @@ end
 # end
 
 
+
 # Copied from JuMP.jl
 # internal method that doesn't print a warning if the value is NaN
 _getvalue(v::JuMP.Variable) = v.m.colVal[v.col]
+
+
+
 
 function clearValues(m)
     relation = getVIPData(m).relation
