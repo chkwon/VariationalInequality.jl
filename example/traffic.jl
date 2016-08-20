@@ -1,12 +1,4 @@
 using JuMP, VariationalInequality
-# include("../src/model.jl")
-# include("../src/algorithms.jl")
-
-using Base.Test
-using FactCheck
-
-
-
 
 # write your own tests here
 
@@ -29,6 +21,8 @@ p = 3
 F = [F1, F2, F3]
 correspond(m, F, h)
 sol, Fval, gap = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
+
+@assert 0<= gap1 < 1e-6
 
 @show sol
 @show gap
