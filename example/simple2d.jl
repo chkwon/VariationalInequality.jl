@@ -3,7 +3,6 @@ using JuMP, VariationalInequality
 # include("../src/algorithms.jl")
 
 using Base.Test
-using FactCheck
 
 
 
@@ -16,16 +15,17 @@ m = VIPModel()
 
 @NLconstraint(m, x[1]^2 + x[2]^2 <= 1)
 
-@NLexpression(m, F1, 3x[1] + x[2] - 5)
-@NLexpression(m, F2, 2x[1] + 5x[2] - 3)
+@mapping(m, F1, 3x[1] + x[2] - 5)
+@mapping(m, F2, 2x[1] + 5x[2] - 3)
 F = [F1, F2]
 correspond(m, F, x)
 
 sol1, Fval1, gap1 = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
 
-println(sol1)
+@show sol1
+@show Fval1
+@show gap1
 
-println(gap1)
 
 
 # (0.9890, 0.1480)

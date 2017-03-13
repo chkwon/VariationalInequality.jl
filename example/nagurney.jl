@@ -16,25 +16,24 @@ model = VIPModel()
 @variable(model, Q[i=1:m, j=1:n] >= 0)
 @variable(model, q[i=1:m] >= 0)
 
-@NLconstraint(model, supply[i=1:m], s[i] == sum{Q[i,j], j=1:n})
-@NLconstraint(model, demand[j=1:n], d[j] == sum{Q[i,j], i=1:m})
+@constraint(model, supply[i=1:m], s[i] == sum(Q[i,j] for j in 1:n))
+@constraint(model, demand[j=1:n], d[j] == sum(Q[i,j] for i in 1:m))
 
 as = [5; 2]
 bs = [5; 10]
-@NLexpression(model, pi[i=1:m], as[i] * s[i] + q[i] + bs[i])
+@mapping(model, pi[i=1:m], as[i] * s[i] + q[i] + bs[i])
 
 ac = [1; 2]
 bc = [15; 20]
-@NLexpression(model, c[i=1:m, j=1:n], ac[i,j] * Q[i,j] + bc[i,j] )
+@mapping(model, c[i=1:m, j=1:n], ac[i,j] * Q[i,j] + bc[i,j] )
 
 ad = [2]
 bd = [100]
-@NLexpression(model, qhat[j=1:n], sum{q[i]*Q[i,j], i=1:m} / ( sum{Q[i,j], i=1:m} + 1e-6 ) )
-@NLexpression(model, nrho[j=1:n], ad[j] * d[j] - qhat[j] - bd[j] )
+@NLexpression(model, qhat[j=1:n], sum(q[i]*Q[i,j] for i in 1:m) / ( sum(Q[i,j] for i in 1:m) + 1e-6 ) )
+@mapping(model, nrho[j=1:n], ad[j] * d[j] - qhat[j] - bd[j] )
 
 aq = [5; 10]
-@NLexpression(model, OC[i=1:m], aq[i] * q[i] )
-@NLexpression(model, Fq[i=1:m], OC[i] - pi[i] )
+@mapping(model, Fq[i=1:m], aq[i] * q[i] - pi[i] )
 
 
 correspond(model, pi, s)
