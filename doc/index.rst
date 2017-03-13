@@ -60,11 +60,11 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
     @variable(m, x2)
     @variable(m, x3)
 
-    @NLconstraint(m, const1, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
+    @constraint(m, const1, x1^2 + 0.4x2^2 + 0.6x3^2 <= 1)
 
-    @NLexpression(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
-    @NLexpression(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
-    @NLexpression(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
+    @mapping(m, F1, 2x1 + 0.2x1^3 - 0.5x2 + 0.1x3 - 4)
+    @mapping(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
+    @mapping(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
     correspond(m, [F1, F2, F3], [x1, x2, x3])
 
@@ -102,13 +102,13 @@ The example in Section 5.8 of `Friesz (2010) Chapter 5. Finite Dimensional Varia
 
     # Add constraints to construct the feasible space
     # The set X as in VI(F,X)
-    @NLconstraint(m, sum{h[i], i=1:p} == T14)
+    @constraint(m, sum{h[i], i=1:p} == T14)
 
-    # Define expressions to be used for the operator of the VI
-    # The operator F as in VI(F,X)
-    @NLexpression(m, F1, A[1]+B[1]*h[1]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
-    @NLexpression(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
-    @NLexpression(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
+    # Define @mapping to be used for the mapping of the VI
+    # The mapping F as in VI(F,X)
+    @mapping(m, F1, A[1]+B[1]*h[1]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
+    @mapping(m, F2, A[2]+B[2]*(h[2]+h[3])^2 + A[3]+B[3]*h[2]^2 + A[4]+B[4]*(h[1]+h[2])^2 )
+    @mapping(m, F3, A[2]+B[2]*(h[2]+h[3])^2 + A[5]+B[5]*(h[3])^2 )
 
     # The order in F and h should match.
     F = [F1, F2, F3]
@@ -140,25 +140,24 @@ Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <http
     @variable(model, Q[i=1:m, j=1:n] >= 0)
     @variable(model, q[i=1:m] >= 0)
 
-    @NLconstraint(model, supply[i=1:m], s[i] == sum{Q[i,j], j=1:n})
-    @NLconstraint(model, demand[j=1:n], d[j] == sum{Q[i,j], i=1:m})
+    @constraint(model, supply[i=1:m], s[i] == sum{Q[i,j], j=1:n})
+    @constraint(model, demand[j=1:n], d[j] == sum{Q[i,j], i=1:m})
 
     as = [5; 2]
     bs = [5; 10]
-    @NLexpression(model, pi[i=1:m], as[i] * s[i] + q[i] + bs[i])
+    @mapping(model, pi[i=1:m], as[i] * s[i] + q[i] + bs[i])
 
     ac = [1; 2]
     bc = [15; 20]
-    @NLexpression(model, c[i=1:m, j=1:n], ac[i,j] * Q[i,j] + bc[i,j] )
+    @mapping(model, c[i=1:m, j=1:n], ac[i,j] * Q[i,j] + bc[i,j] )
 
     ad = [2]
     bd = [100]
     @NLexpression(model, qhat[j=1:n], sum{q[i]*Q[i,j], i=1:m} / ( sum{Q[i,j], i=1:m} + 1e-6 ) )
-    @NLexpression(model, nrho[j=1:n], ad[j] * d[j] - qhat[j] - bd[j] )
+    @mapping(model, nrho[j=1:n], ad[j] * d[j] - qhat[j] - bd[j] )
 
     aq = [5; 10]
-    @NLexpression(model, OC[i=1:m], aq[i] * q[i] )
-    @NLexpression(model, Fq[i=1:m], OC[i] - pi[i] )
+    @mapping(model, Fq[i=1:m], aq[i] * q[i] - pi[i] )
 
 
     correspond(model, pi, s)
