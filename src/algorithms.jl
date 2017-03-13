@@ -26,8 +26,8 @@ function _fixed_point(m, step_size, tolerance, max_iter)
     tau = step_size
 
     for i=1:max_iter
-        @NLobjective(m, Min,
-            sum{ ( var[j] - (xk[j]-tau*fk[j]) )^2, j=1:length(var)}
+        @objective(m, Min,
+            sum( ( var[j] - (xk[j]-tau*fk[j]) )^2 for j in 1:length(var) )
         )
 
         solve(m)
@@ -62,14 +62,14 @@ function _extra_gradient(m, step_size, tolerance, max_iter)
     tau = step_size
 
     for i=1:max_iter
-        @NLobjective(m, Min,
-            sum{ ( var[j] - (xk[j]-tau*fk[j]) )^2, j=1:length(var)}
+        @objective(m, Min,
+            sum( ( var[j] - (xk[j]-tau*fk[j]) )^2 for j in 1:length(var) )
         )
         status = solve(m)
         mid_fk = getCurrentF(relation)
 
-        @NLobjective(m, Min,
-            sum{ ( var[j] - (xk[j]-tau*mid_fk[j]) )^2, j=1:length(var)}
+        @objective(m, Min,
+            sum( ( var[j] - (xk[j]-tau*mid_fk[j]) )^2 for j in 1:length(var) )
         )
         status = solve(m)
 

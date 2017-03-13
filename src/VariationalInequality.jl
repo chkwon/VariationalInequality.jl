@@ -19,7 +19,8 @@ export  VIPModel,
         correspond,
         clearValues,
         saveSolution,
-        gap_function
+        gap_function,
+        @mapping
 
 
 
