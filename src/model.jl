@@ -21,6 +21,25 @@ end
 
 
 
+
+macro mapping(args...)
+  if length(args) != 3
+    error("3 arguments are required in @mapping(...)")
+  end
+
+  m = args[1]
+  name = args[2]
+  ex = args[3]
+
+  expression = Expr(:macrocall, Symbol("@NLexpression"), m, name, ex)
+
+  return esc(expression)
+end
+
+
+
+
+
 ################################################################################
 # correspond interface
 # The most basic/important one. All other interfaces call this method.
@@ -125,7 +144,7 @@ function initial_projection(m::JuMP.Model)
         initial_values[variable] = val
     end
 
-    @NLobjective(m, Min, sum{ ( variable - initial_values[variable] )^2, variable in keys(relation)} )
+    @objective(m, Min, sum( ( variable - initial_values[variable] )^2 for variable in keys(relation) ) )
     status = solve(m)
     @assert status==:Optimal
 end
@@ -136,8 +155,8 @@ function gap_function(m)
     y = getCurrentX(relation)
     Fy = getCurrentF(relation)
 
-    @NLobjective(m, Max,
-        sum{ Fy[j] * ( y[j] - var[j] ),    j=1:length(var)}
+    @objective(m, Max,
+        sum( Fy[j] * ( y[j] - var[j] ) for j in 1:length(var))
     )
     solve(m)
     return getobjectivevalue(m)
