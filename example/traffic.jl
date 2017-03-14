@@ -19,7 +19,7 @@ p = 3
 @constraint(m, sum(h[i] for i=1:p) == T14)
 
 F = [F1, F2, F3]
-correspond(m, F, h)
+@innerproduct(m, F, h)
 sol, Fval, gap = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.01)
 
 @assert 0<= gap < 1e-4

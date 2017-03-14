@@ -16,7 +16,7 @@ m = VIPModel()
 @mapping(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
 @mapping(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
-correspond(m, [F1, F2, F3], [x1, x2, x3])
+@innerproduct(m, [F1, F2, F3], [x1, x2, x3])
 
 sol1, Fval1, gap1 = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
 @assert 0<= gap1 < 1e-6

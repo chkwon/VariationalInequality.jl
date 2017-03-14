@@ -27,15 +27,33 @@ macro mapping(args...)
     error("3 arguments are required in @mapping(...)")
   end
 
-  m = args[1]
-  name = args[2]
-  ex = args[3]
+  m = esc(args[1])
+  F_name = esc(args[2])
+  ex = esc(args[3])
 
-  expression = Expr(:macrocall, Symbol("@NLexpression"), m, name, ex)
+  code = quote
+    @NLexpression($m, $F_name, $ex)
+  end
 
-  return esc(expression)
+  return code
 end
 
+
+macro innerproduct(args...)
+  if length(args) != 3
+    error("3 arguments are required in @innerproduct(...)")
+  end
+
+  m = esc(args[1])
+  F_name = esc(args[2])
+  var = esc(args[3])
+
+  code = quote
+    innerproduct($m, $F_name, $var)
+  end
+
+  return code
+end
 
 
 
@@ -43,13 +61,13 @@ end
 ################################################################################
 # correspond interface
 # The most basic/important one. All other interfaces call this method.
-function correspond(m::Model, expression::JuMP.NonlinearExpression, variable::JuMP.Variable)
+function innerproduct(m::Model, expression::JuMP.NonlinearExpression, variable::JuMP.Variable)
     data = getVIPData(m)
     data.relation[variable] = expression
 end
 # Alternative
-function correspond(m::Model, variable::JuMP.Variable, expression::JuMP.NonlinearExpression)
-    correspond(m, expression, variable)
+function innerproduct(m::Model, variable::JuMP.Variable, expression::JuMP.NonlinearExpression)
+    innerproduct(m, expression, variable)
 end
 
 
@@ -64,16 +82,16 @@ end
 #     end
 # end
 
-function correspond(m::Model, expressions::Array{JuMP.NonlinearExpression}, variables::Array{JuMP.Variable})
+function innerproduct(m::Model, expressions::Array{JuMP.NonlinearExpression}, variables::Array{JuMP.Variable})
     expressions = collect(expressions)
     variables = collect(variables)
     @assert length(expressions) == length(variables)
     for i in 1:length(variables)
-        correspond(m, expressions[i], variables[i])
+        innerproduct(m, expressions[i], variables[i])
     end
 end
-function correspond(m::Model, variables::Array{JuMP.Variable}, expressions::Array{JuMP.NonlinearExpression})
-    correspond(m, expressions, variables)
+function innerproduct(m::Model, variables::Array{JuMP.Variable}, expressions::Array{JuMP.NonlinearExpression})
+    innerproduct(m, expressions, variables)
 end
 
 # Do we need the below?
