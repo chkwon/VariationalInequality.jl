@@ -18,11 +18,11 @@ m = VIPModel()
 @mapping(m, F2, -0.5x[1] + x[2] + 0.1x[2]^3 + 0.5)
 @mapping(m, F3, 0.5x[1] - 0.2x[2] + 2x[3] - 0.5)
 
-correspond(m, F1, x[1])
-correspond(m, F2, x[2])
-correspond(m, F3, x[3])
+@innerproduct(m, F1, x[1])
+@innerproduct(m, F2, x[2])
+@innerproduct(m, F3, x[3])
 # or
-# correspond(m, [F1, F2, F3], x)
+# @innerproduct(m, [F1, F2, F3], x)
 
 
 solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)

@@ -36,10 +36,10 @@ aq = [5; 10]
 @mapping(model, Fq[i=1:m], aq[i] * q[i] - pi[i] )
 
 
-correspond(model, pi, s)
-correspond(model, c, Q)
-correspond(model, nrho, d)
-correspond(model, Fq, q)
+@innerproduct(model, pi, s)
+@innerproduct(model, c, Q)
+@innerproduct(model, nrho, d)
+@innerproduct(model, Fq, q)
 
 for i=1:m, j=1:n
     setvalue(Q[i,j], 1.0)

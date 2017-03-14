@@ -16,11 +16,11 @@ include("algorithms.jl")
 export  VIPModel,
         VIPData,
         solveVIP,
-        correspond,
         clearValues,
         saveSolution,
         gap_function,
-        @mapping
+        @mapping,
+        @innerproduct
 
 
 

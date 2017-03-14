@@ -13,7 +13,7 @@ To find :math:`x^* \in X` such that
 
 where the set :math:`X` is defined by equalities and inequalities. The problem may be called :math:`VI(F,X)`.
 
-This package requires ``JuMP`` and ``Ipopt`` and only support nonlinear constraints and expressions; that is, one must use ``@NLconstraint`` and ``@NLexpression`` instead of ``@addConstraint`` and ``@defExpr``.
+This package requires ``JuMP`` and ``Ipopt``. Use ``@variable`` and ``@mapping`` to define `x` and `F(x)`, respectively. Use ``@innerproduct`` to match each variable and mapping and add to the problem.
 
 For variational inequality problems for traffic user equilibrium, see `TrafficAssignment.jl <https://github.com/chkwon/TrafficAssignment.jl>`_.
 
@@ -66,7 +66,7 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
     @mapping(m, F2, -0.5x1 + x2 + 0.1x2^3 + 0.5)
     @mapping(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
-    correspond(m, [F1, F2, F3], [x1, x2, x3])
+    @innerproduct(m, [F1, F2, F3], [x1, x2, x3])
 
     sol1, Fval1, gap1 = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
     @assert 0<= gap1 < 1e-6
@@ -112,7 +112,7 @@ The example in Section 5.8 of `Friesz (2010) Chapter 5. Finite Dimensional Varia
 
     # The order in F and h should match.
     F = [F1, F2, F3]
-    correspond(m, F, h)
+    @innerproduct(m, F, h)
 
     # sol = the solution x^*
     # Fval = F(x^*)
@@ -160,10 +160,10 @@ Problem (15) with data in Table 1, Example 1, from `Nagurney et al. (2014) <http
     @mapping(model, Fq[i=1:m], aq[i] * q[i] - pi[i] )
 
 
-    correspond(model, pi, s)
-    correspond(model, c, Q)
-    correspond(model, nrho, d)
-    correspond(model, Fq, q)
+    @innerproduct(model, pi, s)
+    @innerproduct(model, c, Q)
+    @innerproduct(model, nrho, d)
+    @innerproduct(model, Fq, q)
 
     for i=1:m, j=1:n
         setvalue(Q[i,j], 1.0)
