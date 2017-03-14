@@ -13,7 +13,7 @@ To find :math:`x^* \in X` such that
 
 where the set :math:`X` is defined by equalities and inequalities. The problem may be called :math:`VI(F,X)`.
 
-This package requires ``JuMP`` and ``Ipopt``. Use ``@variable`` and ``@mapping`` to define `x` and `F(x)`, respectively. Use ``@innerproduct`` to match each variable and mapping and add to the problem.
+This package requires ``JuMP`` and ``Ipopt``. Use ``@variable`` and ``@mapping`` to define :math:`x` and :math:`F(x)`, respectively. Use ``@innerproduct`` to match each variable and mapping and add to the problem. You can use ``@innerproduct`` multiple times.
 
 For variational inequality problems for traffic user equilibrium, see `TrafficAssignment.jl <https://github.com/chkwon/TrafficAssignment.jl>`_.
 
@@ -67,6 +67,12 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
     @mapping(m, F3, 0.5x1 - 0.2x2 + 2x3 - 0.5)
 
     @innerproduct(m, [F1, F2, F3], [x1, x2, x3])
+
+    // or
+    // @innerproduct(m, F1, x1)
+    // @innerproduct(m, F2, x2)
+    // @innerproduct(m, F3, x3)
+    
 
     sol1, Fval1, gap1 = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
     @assert 0<= gap1 < 1e-6
