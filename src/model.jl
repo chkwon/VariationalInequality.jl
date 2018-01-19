@@ -7,7 +7,7 @@ end
 
 function VIPModel(solver=Ipopt.IpoptSolver(print_level=0))
     m = Model(solver=solver)
-    m.ext[:VIP] = VIPData(Array(JuMP.NonlinearExpression,0), Array(JuMP.Variable,0), Dict{JuMP.Variable, JuMP.NonlinearExpression}() )
+    m.ext[:VIP] = VIPData(Array{JuMP.NonlinearExpression}(0), Array{JuMP.Variable}(0), Dict{JuMP.Variable, JuMP.NonlinearExpression}() )
     return m
 end
 
