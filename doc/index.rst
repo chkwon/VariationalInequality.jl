@@ -28,8 +28,7 @@ Please note that currently VariationalInequality is under development.
     Pkg.add("JuMP")
     Pkg.add("Ipopt")
 
-    Pkg.clone("https://github.com/chkwon/VariationalInequality.jl.git")
-    Pkg.build("VariationalInequality")
+    Pkg.add("VariationalInequality")
 
 
 See below for a few examples. Check `the example folder <https://github.com/chkwon/VariationalInequality.jl/tree/master/example>`_ in the github repository for more examples.
@@ -72,7 +71,7 @@ Example 1 from `Fukushima (1986) <http://link.springer.com/article/10.1007%2FBF0
     // @innerproduct(m, F1, x1)
     // @innerproduct(m, F2, x2)
     // @innerproduct(m, F3, x3)
-    
+
 
     sol1, Fval1, gap1 = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
     @assert 0<= gap1 < 1e-6
