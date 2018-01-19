@@ -1,6 +1,5 @@
 # VariationalInequality.jl
 
-[![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.4.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
 [![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.5.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
 [![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.6.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
 
@@ -21,7 +20,7 @@ This package implements solution algorithms for solving finite-dimensional [vari
 
 - [TrafficAssignment.jl](https://github.com/chkwon/TrafficAssignment.jl) - Solving the variational inequality problem arising in computing the network user equilibrium
 
-- [PATHSolver.jl](https://github.com/chkwon/PATHSolver.jl) - Providing a wrapper for the PATH Solver, for solving complementarity problems.
+- [Complementarity.jl](https://github.com/chkwon/Complementarity.jl) - Modeling and solving complementarity problems
 
 
 
