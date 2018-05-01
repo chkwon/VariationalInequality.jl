@@ -2,6 +2,7 @@
 
 [![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.5.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
 [![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.6.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
+[![VariationalInequality](http://pkg.julialang.org/badges/VariationalInequality_0.7.svg)](http://pkg.julialang.org/?pkg=VariationalInequality)
 
 
 [![Build Status](https://travis-ci.org/chkwon/VariationalInequality.jl.svg?branch=master)](https://travis-ci.org/chkwon/VariationalInequality.jl)
