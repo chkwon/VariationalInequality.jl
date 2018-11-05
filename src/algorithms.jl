@@ -1,7 +1,7 @@
 # functions that return arrays
-getCurrentX(relation) = getvalue(collect(keys(relation)))
-getCurrentF(relation) = getvalue(collect(values(relation)))
-getVariables(relation) = collect(keys(relation))
+get_current_x(relation) = getvalue(collect(keys(relation)))
+get_current_F(relation) = getvalue(collect(values(relation)))
+get_variables(relation) = collect(keys(relation))
 
 # function createSolutionDict(m::Model)
 #     relation = getVIPData(m).relation
@@ -20,9 +20,9 @@ function _fixed_point(m, step_size, tolerance, max_iter)
     relation = getVIPData(m).relation
 
     # initialization
-    var = getVariables(relation)
-    xk = getCurrentX(relation)
-    fk = getCurrentF(relation)
+    var = get_variables(relation)
+    xk = get_current_x(relation)
+    fk = get_current_F(relation)
     tau = step_size
 
     for i=1:max_iter
@@ -32,8 +32,8 @@ function _fixed_point(m, step_size, tolerance, max_iter)
 
         solve(m)
 
-        new_xk = getCurrentX(relation)
-        new_fk = getCurrentF(relation)
+        new_xk = get_current_x(relation)
+        new_fk = get_current_F(relation)
         rel_err = norm(xk-new_xk)  #/ norm(xk)
 
         @printf("iteration %4d: rel_err=%15.12f\n", i, rel_err)
@@ -56,9 +56,9 @@ function _extra_gradient(m, step_size, tolerance, max_iter)
     relation = getVIPData(m).relation
 
     # initialization
-    var = getVariables(relation)
-    xk = getCurrentX(relation)
-    fk = getCurrentF(relation)
+    var = get_variables(relation)
+    xk = get_current_x(relation)
+    fk = get_current_F(relation)
     tau = step_size
 
     for i=1:max_iter
@@ -66,15 +66,15 @@ function _extra_gradient(m, step_size, tolerance, max_iter)
             sum( ( var[j] - (xk[j]-tau*fk[j]) )^2 for j in 1:length(var) )
         )
         status = solve(m)
-        mid_fk = getCurrentF(relation)
+        mid_fk = get_current_F(relation)
 
         @objective(m, Min,
             sum( ( var[j] - (xk[j]-tau*mid_fk[j]) )^2 for j in 1:length(var) )
         )
         status = solve(m)
 
-        new_xk = getCurrentX(relation)
-        new_fk = getCurrentF(relation)
+        new_xk = get_current_x(relation)
+        new_fk = get_current_F(relation)
         rel_err = norm(xk-new_xk) / norm(xk)
 
         @printf("iteration %4d: rel_err=%15.12f\n", i, rel_err)

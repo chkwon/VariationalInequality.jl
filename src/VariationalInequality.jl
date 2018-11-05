@@ -4,7 +4,7 @@ module VariationalInequality
 
 # package code goes here
 
-using JuMP
+using JuMP, LinearAlgebra, SparseArrays, Printf
 import Ipopt
 
 
@@ -16,8 +16,8 @@ include("algorithms.jl")
 export  VIPModel,
         VIPData,
         solveVIP,
-        clearValues,
-        saveSolution,
+        clear_values,
+        save_solution,
         gap_function,
         @mapping,
         @innerproduct

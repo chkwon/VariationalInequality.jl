@@ -1,5 +1,5 @@
 
-type VIPData
+mutable struct VIPData
     F::Array{JuMP.NonlinearExpression,1}
     var::Array{JuMP.Variable,1}
     relation::Dict{JuMP.Variable, JuMP.NonlinearExpression}
@@ -7,7 +7,7 @@ end
 
 function VIPModel(solver=Ipopt.IpoptSolver(print_level=0))
     m = Model(solver=solver)
-    m.ext[:VIP] = VIPData(Array{JuMP.NonlinearExpression}(0), Array{JuMP.Variable}(0), Dict{JuMP.Variable, JuMP.NonlinearExpression}() )
+    m.ext[:VIP] = VIPData(Array{JuMP.NonlinearExpression}[], Array{JuMP.Variable}[], Dict{JuMP.Variable, JuMP.NonlinearExpression}() )
     return m
 end
 
@@ -21,22 +21,7 @@ end
 
 
 
-
-macro mapping(args...)
-  if length(args) != 3
-    error("3 arguments are required in @mapping(...)")
-  end
-
-  m = esc(args[1])
-  F_name = esc(args[2])
-  ex = esc(args[3])
-
-  code = quote
-    @NLexpression($m, $F_name, $ex)
-  end
-
-  return code
-end
+@eval const $(Symbol("@mapping")) = $(Symbol("@NLexpression"))
 
 
 macro innerproduct(args...)
@@ -138,12 +123,12 @@ end
 
 # Copied from JuMP.jl
 # internal method that doesn't print a warning if the value is NaN
-_getvalue(v::JuMP.Variable) = v.m.colVal[v.col]
+_get_value(v::JuMP.Variable) = v.m.colVal[v.col]
 
 
 
 
-function clearValues(m)
+function clear_values(m)
     relation = getVIPData(m).relation
     for variable in keys(relation)
         setvalue(variable, NaN)
@@ -155,7 +140,7 @@ function initial_projection(m::JuMP.Model)
 
     initial_values = Dict{JuMP.Variable, Float64}()
     for variable in keys(relation)
-        val = _getvalue(variable)
+        val = _get_value(variable)
         if isnan(val)
             val = 0.0
         end
@@ -169,9 +154,9 @@ end
 
 function gap_function(m)
     relation = getVIPData(m).relation
-    var = getVariables(relation)
-    y = getCurrentX(relation)
-    Fy = getCurrentF(relation)
+    var = get_variables(relation)
+    y = get_current_x(relation)
+    Fy = get_current_F(relation)
 
     @objective(m, Max,
         sum( Fy[j] * ( y[j] - var[j] ) for j in 1:length(var))
@@ -180,11 +165,11 @@ function gap_function(m)
     return getobjectivevalue(m)
 end
 
-function saveSolution(m)
+function save_solution(m)
     relation = getVIPData(m).relation
-    var = getVariables(relation)
-    x = getCurrentX(relation)
-    F = getCurrentF(relation)
+    var = get_variables(relation)
+    x = get_current_x(relation)
+    F = get_current_F(relation)
 
     solution = Dict(zip(var, x))
     F_value = Dict(zip(var, F))
@@ -208,6 +193,6 @@ function solveVIP(m::Model;    step_size=0.01,
     #     _hyperplane(m, step_size, tolerance, max_iter)
     end
 
-    # sol, Fval, gap = saveSolution(m)
-    return saveSolution(m)
+    # sol, Fval, gap = save_solution(m)
+    return save_solution(m)
 end

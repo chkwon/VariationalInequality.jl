@@ -1,11 +1,16 @@
 using VariationalInequality
 using JuMP
 
-using Base.Test
+using Test
 
-info("Nagurney Model")
-include(joinpath(dirname(dirname(@__FILE__)), "example", "nagurney.jl"))
-info("Traffic Equilibrium")
-include(joinpath(dirname(dirname(@__FILE__)), "example", "traffic.jl"))
-info("Fukushima1")
-include(joinpath(dirname(dirname(@__FILE__)), "example", "fukushima1.jl"))
+@testset "Nagurney Model" begin
+    include(joinpath(dirname(dirname(@__FILE__)), "example", "nagurney.jl"))
+end
+
+@testset "Traffic Equilibrium" begin
+    include(joinpath(dirname(dirname(@__FILE__)), "example", "traffic.jl"))
+end
+
+@testset "Fukushima1" begin
+    include(joinpath(dirname(dirname(@__FILE__)), "example", "fukushima1.jl"))
+end
