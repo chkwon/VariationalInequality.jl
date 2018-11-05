@@ -1,9 +1,4 @@
-# using JuMP, VariationalInequality
-# using Base.Test
-
 using JuMP, VariationalInequality
-# include("../src/model.jl")
-# include("../src/algorithms.jl")
 
 # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
 # Example 4.2. This example is adapted from the example in (Fukushima, 1986). Let
@@ -26,14 +21,14 @@ m = VIPModel()
 
 
 solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size=0.1)
-sol1, Fval1, gap1 = saveSolution(m)
+sol1, Fval1, gap1 = save_solution(m)
 @assert 0<= gap1 < 1e-6
 
 # The above `solveVIP` sets the value of variables at the solution
-clearValues(m)
+clear_values(m)
 
 solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
-sol2, Fval2, gap2 = saveSolution(m)
+sol2, Fval2, gap2 = save_solution(m)
 @assert 0<= gap2 < 1e-6
 
 # sol2, Fval2, gap2 = solveVIP(m, algorithm=:hyperplane, max_iter=1000, step_size=0.1)

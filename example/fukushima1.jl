@@ -1,6 +1,6 @@
 using VariationalInequality
 using JuMP
-using Base.Test
+using Test
 
 # https://cdr.lib.unc.edu/indexablecontent/uuid:778ca632-74ca-4858-8c3c-6dcfc7e6e703
 # Example 3.8. This example is used for testing the RPM in (Fukushima, 1986).
@@ -22,7 +22,7 @@ sol1, Fval1, gap1 = solveVIP(m, algorithm=:fixed_point, max_iter=1000, step_size
 @assert 0<= gap1 < 1e-6
 
 # The above `solveVIP` sets the value of variables at the solution
-clearValues(m)
+clear_values(m)
 
 sol2, Fval2, gap2 = solveVIP(m, algorithm=:extra_gradient, max_iter=1000, step_size=0.1)
 @assert 0<= gap2 < 1e-6

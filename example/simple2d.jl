@@ -1,8 +1,5 @@
 using JuMP, VariationalInequality
-# include("../src/model.jl")
-# include("../src/algorithms.jl")
-
-using Base.Test
+using Test
 
 
 

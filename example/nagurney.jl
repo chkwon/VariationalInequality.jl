@@ -1,9 +1,5 @@
 using JuMP, VariationalInequality
-# include("../src/model.jl")
-# include("../src/algorithms.jl")
-
-using Base.Test
-
+using Test
 
 # https://supernet.isenberg.umass.edu/articles/SPE_Model_Information_Asymmetry_in_Quality.pdf
 # Problem (15), Data in Table 1, Example 1
